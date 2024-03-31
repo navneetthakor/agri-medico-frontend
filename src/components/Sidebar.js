@@ -74,7 +74,7 @@ function Sidebar(props) {
         }}
       >
         <FlexBetween>
-          <Typography variant="h2">Agri-Medico</Typography>
+          <Typography variant="h2" sx={{fontWeight: '700'}}>Agri-Medico</Typography>
           <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
             <ChevronLeft sx={{ fontSize: "25px" }} />
           </IconButton>
@@ -117,8 +117,8 @@ function Sidebar(props) {
       >
         <Avatar size="lg" src={AccountBalance} />
         <Box>
-          <Typography variant="h5">Username</Typography>
-          <Typography>joined 20 Jun 2023</Typography>
+          <Typography variant="h5" sx={{fontWeight: '700'}}>Username</Typography>
+          <Typography variant="h6">joined 20 Jun 2023</Typography>
         </Box>
       </Box>
     </Drawer>
