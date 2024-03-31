@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 // import Sidebar from '../components/Sidebar'
 import Navbar from '../components/Navbar'
 import { Outlet } from 'react-router-dom'
-import Sample from '../components/Sample'
 
 function RootLayout() {
     // to know whether device is mobile or not 
@@ -24,7 +23,6 @@ function RootLayout() {
             isNonMobile={isNonMobile}
             setIsSidebarOpen={setIsSidebarOpen}
             />
-            <Sample/>
             <Outlet />
         </Box>
       
