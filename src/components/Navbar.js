@@ -1,10 +1,18 @@
+import { AppBar } from '@mui/material'
 import React from 'react'
 
 function Navbar() {
   return (
-    <div>
-      
-    </div>
+    <AppBar
+    sx={{
+        border:'2px solid red',
+        position: 'sticky',
+        top: 0,
+        left: 0,
+    }}
+    >
+      Navbar
+    </AppBar>
   )
 }
 

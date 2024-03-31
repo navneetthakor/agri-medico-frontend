@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 import { themeSettings } from "./theme";
 import { ThemeProvider } from "@emotion/react";
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
-import Sample from "./components/Sample";
 import { CssBaseline } from "@mui/material";
+import RootLayout from "./scens/RootLayout";
 
 
 // router setup 
@@ -21,7 +21,7 @@ function App() {
 
   // settingup the router 
   const router = createBrowserRouter(createRoutesFromElements(
-    <Route exact path="/" element={<Sample/>}>
+    <Route exact path="/" element={<RootLayout/>}>
 
     </Route>
   ))
