@@ -1,6 +1,6 @@
 import { Box, useMediaQuery } from '@mui/material'
 import React, { useState } from 'react'
-// import Sidebar from '../components/Sidebar'
+import Sidebar from '../components/Sidebar'
 import Navbar from '../components/Navbar'
 import { Outlet } from 'react-router-dom'
 
@@ -12,12 +12,20 @@ function RootLayout() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
     <Box
-    sx={{
-        minHeight: '100vh',
-    }}
     >
-        {/* <Sidebar /> */}
-        <Box>
+        <Sidebar
+        isSidebarOpen={isSidebarOpen}
+        isNonMobile={isNonMobile}
+        setIsSidebarOpen={setIsSidebarOpen}
+        />
+        <Box
+        sx={{
+          minHeight: '100vh',
+        }}
+        onClick={()=>{
+          if(isSidebarOpen) setIsSidebarOpen(!isSidebarOpen);
+        }}
+        flexGrow={1}>
             <Navbar
             isSidebarOpen={isSidebarOpen}
             isNonMobile={isNonMobile}
