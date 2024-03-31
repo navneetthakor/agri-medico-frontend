@@ -50,18 +50,20 @@ function Navbar(props) {
         {/* senter logo  */}
         <Box
           sx={{
-            backgroundColor: "rgba(255,255,255,0.2)",
+            // backgroundColor: "rgba(255,255,255,0.2)",
+            background: 'linear-gradient(to bottom right, royalblue, pink)',
             backdropFilter: "blur(50px)",
             borderRadius: '8px',
             padding: " 5px 15px",
             display: 'flex',
             alignItems:'center',
             justifyContent: 'center',
-            color: 'pink',
+            fontWeight: '700',
+            textShadow: '2px 2px 15px black',
             gap: '5%'
           }}
         >
-            <ScienceRoundedIcon sx={{color: 'lightblue'}} />
+            <ScienceRoundedIcon />
           <Box sx={{fontSize: '18px'}}>Experimental</Box> 
         </Box>
 
@@ -78,7 +80,6 @@ function Navbar(props) {
           )}
           <IconButton
             sx={{ marginLeft: "5%" }}
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           >
             <AccountCircleIcon sx={{ fontSize: "30px" }} />
           </IconButton>
