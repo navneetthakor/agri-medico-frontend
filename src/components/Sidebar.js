@@ -14,7 +14,10 @@ import React, { useState } from "react";
 import FlexBetween from "./FlexBetween";
 import { ChevronLeft } from "@mui/icons-material";
 import { useTheme } from "@emotion/react";
-import { useHref } from "react-router-dom";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import HistoryIcon from "@mui/icons-material/History";
+import InfoIcon from "@mui/icons-material/Info";
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
 function Sidebar(props) {
   const { isSidebarOpen, isNonMobile, setIsSidebarOpen } = props;
@@ -22,11 +25,11 @@ function Sidebar(props) {
   // to use theme
   const theme = useTheme();
 
-  // help button logic 
+  // help button logic
   const [isHelpMenuOpen, setIsHelpMenuOpen] = useState(false);
-  const handleHelpButtonClick = () =>{
+  const handleHelpButtonClick = () => {
     setIsHelpMenuOpen(!isHelpMenuOpen);
-  }
+  };
 
   const hello = [
     "hello",
@@ -74,7 +77,7 @@ function Sidebar(props) {
       }}
       variant="persistent"
       anchor="left"
-      open={ isNonMobile ? 'open' : isSidebarOpen}
+      open={isNonMobile ? "open" : isSidebarOpen}
     >
       {/* heading  */}
       <DialogTitle
@@ -83,22 +86,26 @@ function Sidebar(props) {
         }}
       >
         <FlexBetween>
-          <Typography variant="h2" sx={{fontWeight: '700'}}>Agri-Medico</Typography>
-         {!isNonMobile && <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-            <ChevronLeft sx={{ fontSize: "25px" }} />
-          </IconButton> }
+          <Typography variant="h2" sx={{ fontWeight: "700" }}>
+            Agri-Medico
+          </Typography>
+          {!isNonMobile && (
+            <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+              <ChevronLeft sx={{ fontSize: "25px" }} />
+            </IconButton>
+          )}
         </FlexBetween>
       </DialogTitle>
 
       {/* body  */}
       <Box
-      className='scrollbarBody'
+        className="scrollbarBody"
         sx={{
-          height: "89vh",
+          height: "70vh",
           borderTop: "1px solid",
           borderColor: "divider",
           overflowY: "scroll",
-          padding: "auto 10px",
+          padding: 1.5,
         }}
       >
         <List>
@@ -108,7 +115,8 @@ function Sidebar(props) {
                 height: "5vh",
               }}
             >
-              {iteam}
+              <ChatBubbleOutlineIcon />
+              <Typography marginLeft='10px' variant="h6">{iteam}</Typography>
             </ListItem>
           ))}
         </List>
@@ -126,20 +134,47 @@ function Sidebar(props) {
           borderColor: "divider",
         }}
       >
-        <Button onClick={handleHelpButtonClick}>Help</Button>
-        <Menu
-        id="basic-menu"
-        open={isHelpMenuOpen}
-        onClose={handleHelpButtonClick}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        <MenuItem onClick={() => (window.location.href = 'mailto:tnavneet8628@gmail.com')}>Email</MenuItem>
-        <MenuItem onClick={handleHelpButtonClick}>My account</MenuItem>
-        <MenuItem onClick={handleHelpButtonClick}>Logout</MenuItem>
-      </Menu>
-        
+        {/* hellp menu  */}
+        <List>
+          <ListItem>
+            <HelpOutlineIcon />
+            <Typography
+              variant="h6"
+              marginLeft='10px'
+              sx={{ cursor: "pointer" }}
+              onClick={handleHelpButtonClick}
+            >
+              Help
+            </Typography>
+          </ListItem>
+          <Menu
+            id="basic-menu"
+            open={isHelpMenuOpen}
+            onClose={handleHelpButtonClick}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
+            <MenuItem
+              onClick={() =>
+                (window.location.href = "mailto:tnavneet8628@gmail.com")
+              }
+            >
+              Email
+            </MenuItem>
+            <MenuItem onClick={handleHelpButtonClick}>My account</MenuItem>
+            <MenuItem onClick={handleHelpButtonClick}>Logout</MenuItem>
+          </Menu>
+
+          <ListItem>
+            <HistoryIcon />
+            <Typography marginLeft='10px' variant="h6">Activity</Typography>
+          </ListItem>
+          <ListItem>
+            <InfoIcon />
+            <Typography marginLeft='10px' variant="h6">About Us</Typography>
+          </ListItem>
+        </List>
       </Box>
     </Drawer>
   );
