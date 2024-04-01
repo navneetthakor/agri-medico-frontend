@@ -83,6 +83,7 @@ function Sidebar(props) {
 
       {/* body  */}
       <Box
+      className='scrollbarBody'
         sx={{
           height: "89vh",
           borderTop: "1px solid",
