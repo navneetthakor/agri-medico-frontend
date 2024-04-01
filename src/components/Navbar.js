@@ -27,7 +27,7 @@ function Navbar(props) {
     <AppBar
       sx={{
         position: "sticky",
-        backgroundColor: theme.palette.background.alt,
+        backgroundColor: theme.palette.background.default,
         top: 0,
         left: 0,
         // padding: "0 3%",
