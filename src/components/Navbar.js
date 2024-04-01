@@ -109,7 +109,7 @@ function Navbar(props) {
                 right: 0,
                 top: 0,
                 transform: 'translate(0, 0)',
-                height: isNonMobile ? '65vh' : '100vh',
+                height: isNonMobile ? '70vh' : '100vh',
                 width: isNonMobile ? '30vw' : '100vw',
                 margin: isNonMobile ? 'inherite' : '0px',
                 display: 'flex',
