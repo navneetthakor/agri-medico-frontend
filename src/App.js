@@ -1,6 +1,6 @@
 
 // material ui setup 
-import {createTheme} from "@mui/material/styles"
+import { createTheme } from "@mui/material/styles"
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { themeSettings } from "./theme";
@@ -9,6 +9,8 @@ import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } 
 import { CssBaseline } from "@mui/material";
 import RootLayout from "./scens/RootLayout";
 import Welcome from "./components/Welcome";
+import FetchState from "./context/fetch/FetchState";
+import Result from "./components/Result";
 
 // router setup 
 
@@ -18,20 +20,23 @@ function App() {
   // demo commit
   // setting up theme 
   const mode = useSelector((state) => state.currMode.mode);
-  const theme = useMemo(() => createTheme(themeSettings(mode)),[mode]);
+  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
 
   // settingup the router 
   const router = createBrowserRouter(createRoutesFromElements(
-    <Route exact path="/" element={<RootLayout/>}>
-      <Route index element={<Welcome />}/>
+    <Route exact path="/" element={<RootLayout />}>
+      <Route index element={<Welcome />} />
+      <Route exact path="/result" element={<Result />} />
     </Route>
   ))
   return (
     <>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <RouterProvider router={router} />
-    </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <FetchState>
+          <RouterProvider router={router} />
+        </FetchState>
+      </ThemeProvider>
     </>
   );
 }
