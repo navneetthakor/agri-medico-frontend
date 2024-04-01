@@ -70,6 +70,7 @@ function Sidebar(props) {
     <Drawer
       sx={{
         "& .MuiDrawer-paper": {
+          overflow: 'hidden',
           width: "270px",
           boxSizing: "border-box",
           backgroundColor: theme.palette.background.alt,
@@ -125,7 +126,8 @@ function Sidebar(props) {
       {/* footer  */}
       <Box
         sx={{
-          height: "10vh",
+          height: "20vh",
+          overflow: 'hidden',
           background: theme.palette.background.alt,
           display: "flex",
           gap: "5%",
