@@ -1,23 +1,32 @@
 import {
-  Avatar,
   Box,
+  Button,
   DialogTitle,
   Drawer,
   IconButton,
   List,
   ListItem,
+  Menu,
+  MenuItem,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import FlexBetween from "./FlexBetween";
-import { AccountBalance, ChevronLeft } from "@mui/icons-material";
+import { ChevronLeft } from "@mui/icons-material";
 import { useTheme } from "@emotion/react";
+import { useHref } from "react-router-dom";
 
 function Sidebar(props) {
   const { isSidebarOpen, isNonMobile, setIsSidebarOpen } = props;
 
   // to use theme
   const theme = useTheme();
+
+  // help button logic 
+  const [isHelpMenuOpen, setIsHelpMenuOpen] = useState(false);
+  const handleHelpButtonClick = () =>{
+    setIsHelpMenuOpen(!isHelpMenuOpen);
+  }
 
   const hello = [
     "hello",
@@ -58,7 +67,7 @@ function Sidebar(props) {
     <Drawer
       sx={{
         "& .MuiDrawer-paper": {
-          width: "300px",
+          width: "270px",
           boxSizing: "border-box",
           backgroundColor: theme.palette.background.alt,
         },
@@ -104,6 +113,7 @@ function Sidebar(props) {
           ))}
         </List>
       </Box>
+
       {/* footer  */}
       <Box
         sx={{
@@ -116,11 +126,20 @@ function Sidebar(props) {
           borderColor: "divider",
         }}
       >
-        <Avatar size="lg" src={AccountBalance} />
-        <Box>
-          <Typography variant="h5" sx={{fontWeight: '700'}}>Username</Typography>
-          <Typography variant="h6">joined 20 Jun 2023</Typography>
-        </Box>
+        <Button onClick={handleHelpButtonClick}>Help</Button>
+        <Menu
+        id="basic-menu"
+        open={isHelpMenuOpen}
+        onClose={handleHelpButtonClick}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem onClick={() => (window.location.href = 'mailto:tnavneet8628@gmail.com')}>Email</MenuItem>
+        <MenuItem onClick={handleHelpButtonClick}>My account</MenuItem>
+        <MenuItem onClick={handleHelpButtonClick}>Logout</MenuItem>
+      </Menu>
+        
       </Box>
     </Drawer>
   );
