@@ -59,7 +59,7 @@ function Navbar(props) {
             alignItems:'center',
             justifyContent: 'center',
             fontWeight: '700',
-            textShadow: '2px 2px 15px black',
+            textShadow: mode === 'dark' ? '2px 2px 15px black' : '2px 2px 15px white',
             gap: '5%'
           }}
         >
