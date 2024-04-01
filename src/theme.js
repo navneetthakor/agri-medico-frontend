@@ -81,8 +81,12 @@ export const tokensDark = {
                 main: tokensDark.grey[500],
               },
               background: {
-                default: tokensDark.primary[800],
-                alt: tokensDark.primary[500],
+                // default: tokensDark.primary[900],
+                // default: '#37393b',
+                default: '#131314',
+                // default:`linear-gradient(to right, #131314 , #37393b)`,
+                alt: '#222327',
+                // alt: tokensDark.primary[500],
               },
             }
           : {
