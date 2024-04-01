@@ -13,6 +13,9 @@ body {
   background-color: transparent; /* or add it to the track */
 }
 .scrollbarBody::-webkit-scrollbar-thumb{
+  background-color:  rgba(255, 255, 255,0.3); /* or add it to the track */
+}
+.scrollbarBody:hover::-webkit-scrollbar-thumb{
   background-color: #FFFFFF; /* or add it to the track */
 }
 code {
