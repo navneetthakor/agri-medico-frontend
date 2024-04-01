@@ -78,7 +78,7 @@ function Sidebar(props) {
       }}
       variant="persistent"
       anchor="left"
-      open={isNonMobile ? "open" : isSidebarOpen}
+      open={isNonMobile ? true : isSidebarOpen}
     >
       {/* heading  */}
       <DialogTitle
