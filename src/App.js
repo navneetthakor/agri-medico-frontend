@@ -15,6 +15,7 @@ import RootLayout from "./scens/RootLayout";
 
 
 function App() {
+  // demo commit
   // setting up theme 
   const mode = useSelector((state) => state.currMode.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)),[mode]);
