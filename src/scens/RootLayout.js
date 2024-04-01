@@ -21,6 +21,7 @@ function RootLayout() {
         <Box
         sx={{
           minHeight: '100vh',
+          marginLeft: isNonMobile ? '270px': 'inherite',
         }}
         onClick={()=>{
           if(isSidebarOpen) setIsSidebarOpen(!isSidebarOpen);
@@ -31,7 +32,14 @@ function RootLayout() {
             isNonMobile={isNonMobile}
             setIsSidebarOpen={setIsSidebarOpen}
             />
+            <Box
+            sx={{
+              marginRight: isNonMobile ? '80px': 'inherite',
+            }}
+            >
             <Outlet />
+
+            </Box>
         </Box>
       
     </Box>

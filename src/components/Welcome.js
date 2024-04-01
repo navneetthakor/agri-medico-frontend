@@ -5,14 +5,15 @@ const Welcome = () => {
     return (
         <div>
             <Box sx={{
+                padding: '100px 0px',
                 display:'flex',
                 flexDirection:'column',
                 justifyContent:'center',
                 alignItems:'center'
                 
             }}>
-                <img src={logo} height={'100px'} width={"100px"} alt="" />
-                <h1>Welcome to Agri-Medico, your AI Doctor...</h1>
+                <img src={logo} height={'200px'} width={"200px"} alt="" />
+                <h1>Welcome to Agri-Medico, your AI Doctor...OS OFOISD F9PUSDOIL</h1>
             </Box>
         </div>
     )
