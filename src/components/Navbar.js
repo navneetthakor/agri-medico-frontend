@@ -36,15 +36,11 @@ function Navbar(props) {
       <Toolbar sx={{ justifyContent: "space-between" }}>
         {/* leftside button  */}
         <Box>
-          {isSidebarOpen ? (
-            <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-              <ListIcon sx={{ fontSize: "30px" }} />
-            </IconButton>
-          ) : (
+          {!isSidebarOpen && !isNonMobile &&
             <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
               <MenuOpenIcon sx={{ fontSize: "30px" }} />
             </IconButton>
-          )}
+          }
         </Box>
 
         {/* senter logo  */}

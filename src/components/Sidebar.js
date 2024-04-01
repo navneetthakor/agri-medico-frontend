@@ -65,7 +65,7 @@ function Sidebar(props) {
       }}
       variant="persistent"
       anchor="left"
-      open={isSidebarOpen}
+      open={ isNonMobile ? 'open' : isSidebarOpen}
     >
       {/* heading  */}
       <DialogTitle
@@ -75,9 +75,9 @@ function Sidebar(props) {
       >
         <FlexBetween>
           <Typography variant="h2" sx={{fontWeight: '700'}}>Agri-Medico</Typography>
-          <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+         {!isNonMobile && <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
             <ChevronLeft sx={{ fontSize: "25px" }} />
-          </IconButton>
+          </IconButton> }
         </FlexBetween>
       </DialogTitle>
 
