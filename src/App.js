@@ -8,7 +8,7 @@ import { ThemeProvider } from "@emotion/react";
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
 import RootLayout from "./scens/RootLayout";
-
+import Welcome from "./components/Welcome";
 
 // router setup 
 
@@ -23,7 +23,7 @@ function App() {
   // settingup the router 
   const router = createBrowserRouter(createRoutesFromElements(
     <Route exact path="/" element={<RootLayout/>}>
-
+      <Route index element={<Welcome />}/>
     </Route>
   ))
   return (
