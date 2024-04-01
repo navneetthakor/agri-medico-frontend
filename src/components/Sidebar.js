@@ -73,7 +73,7 @@ function Sidebar(props) {
           overflow: 'hidden',
           width: "270px",
           boxSizing: "border-box",
-          backgroundColor: theme.palette.background.default,
+          backgroundColor: theme.palette.background.alt,
         },
       }}
       variant="persistent"
@@ -128,7 +128,7 @@ function Sidebar(props) {
         sx={{
           height: "20vh",
           overflow: 'hidden',
-          background: theme.palette.background.default,
+          background: theme.palette.background.alt,
           display: "flex",
           gap: "5%",
           p: 1.5,

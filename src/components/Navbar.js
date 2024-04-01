@@ -30,7 +30,7 @@ function Navbar(props) {
         backgroundColor: theme.palette.background.default,
         top: 0,
         left: 0,
-        // padding: "0 3%",
+        boxShadow: 'none'
       }}
     >
       <Toolbar sx={{ justifyContent: "space-between" }}>
