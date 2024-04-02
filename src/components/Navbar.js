@@ -78,23 +78,41 @@ function Navbar(props) {
 
   // to handle form submit
   const handleFormSubmit = async (values) => {
-    const formdata = new FormData();
-    if(selectedImage) formdata.append("image", selectedImage);
-    for (let [key, value] of Object.entries(values)) {
+    let url = `http://localhost:5001/user/`;
+    url += loginSignupState === 'signup' ? `createuser` : `userlogin`;
+    let data;
+    let response;
+
+    if(loginSignupState === 'signup'){
+
+      const formdata = new FormData();
+      if(selectedImage) formdata.append("image", selectedImage);
+      for (let [key, value] of Object.entries(values)) {
       console.log(key, value);
       formdata.append(key, value);
     }
 
-    let url = `http://localhost:5001/user/`;
-    url += loginSignupState === 'signup' ? `createuser` : `userlogin`;
-    const response = await fetch(url, {
+    response = await fetch(url, {
       method: "POST",
       body: formdata,
     });
     console.log(response);
-    const data = await response.json();
+    data = await response.json();
     console.log(data);
-
+  }
+  else{
+    response = await fetch(url, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(values),
+    });
+    console.log(response);
+    data = await response.json();
+    console.log(data);
+  }
+    
     if (data.signal === "red") alert(data.error);
     else {
       localStorage.setItem("usertoken", data.usertoken);
