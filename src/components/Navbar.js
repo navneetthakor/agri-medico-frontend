@@ -440,6 +440,11 @@ function Navbar(props) {
                       background: theme.palette.background.alt,
                     },
                   }}
+
+                  onClick={() => {
+                    handleModalClose(1);
+                    handleModalOpen(2);
+                  }}
                 >
                   <Add
                     sx={{
