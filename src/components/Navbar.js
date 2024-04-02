@@ -99,7 +99,6 @@ function Navbar(props) {
                 width: 100,
                 height: 100,
                 cursor: "pointer",
-                margin: "15px 0px",
               }}
               component={Button}
               onClick={() => document.getElementById("image").click()}
@@ -127,7 +126,7 @@ function Navbar(props) {
             { loginSignupState === 'signup' && <Box>
               <TextField
                 sx={{ width: isNonMobile ? "15vw" : "50vw" }}
-                variant="filled"
+                variant="standard"
                 label="userName"
                 type="txt"
                 name="username"
@@ -144,7 +143,7 @@ function Navbar(props) {
             <Box>
               <TextField
                 sx={{ width: isNonMobile ? "15vw" : "50vw" }}
-                variant="filled"
+                variant="standard"
                 label="email"
                 type="email"
                 name="email"
@@ -160,7 +159,7 @@ function Navbar(props) {
            {loginSignupState === 'signup' &&  <Box>
               <TextField
                 sx={{ width: isNonMobile ? "15vw" : "50vw" }}
-                variant="filled"
+                variant="standard"
                 label="Contact Number"
                 type="txt"
                 name="contact_num"
@@ -176,7 +175,7 @@ function Navbar(props) {
             <Box>
               <TextField
                 sx={{ width: isNonMobile ? "15vw" : "50vw" }}
-                variant="filled"
+                variant="standard"
                 label="Password"
                 type="txt"
                 name="password"
