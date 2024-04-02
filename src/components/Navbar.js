@@ -1,4 +1,5 @@
 import {
+  Alert,
   AppBar,
   Avatar,
   Box,
@@ -31,6 +32,7 @@ import { Form, Formik } from "formik";
 import * as yup from "yup";
 import FlexCenter from "./FlexCenter";
 import styled from "@emotion/styled";
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 // schema for formik form
 const userFormSchema = yup.object().shape({
@@ -79,44 +81,48 @@ function Navbar(props) {
   // to handle form submit
   const handleFormSubmit = async (values) => {
     let url = `http://localhost:5001/user/`;
-    url += loginSignupState === 'signup' ? `createuser` : `userlogin`;
+    url += loginSignupState === "signup" ? `createuser` : `userlogin`;
     let data;
     let response;
 
-    if(loginSignupState === 'signup'){
-
+    if (loginSignupState === "signup") {
       const formdata = new FormData();
-      if(selectedImage) formdata.append("image", selectedImage);
+      if (selectedImage) formdata.append("image", selectedImage);
       for (let [key, value] of Object.entries(values)) {
-      console.log(key, value);
-      formdata.append(key, value);
+        console.log(key, value);
+        formdata.append(key, value);
+      }
+
+      response = await fetch(url, {
+        method: "POST",
+        body: formdata,
+      });
+      console.log(response);
+      data = await response.json();
+      console.log(data);
+    } else {
+      response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+      console.log(response);
+      data = await response.json();
+      console.log(data);
     }
 
-    response = await fetch(url, {
-      method: "POST",
-      body: formdata,
-    });
-    console.log(response);
-    data = await response.json();
-    console.log(data);
-  }
-  else{
-    response = await fetch(url, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(values),
-    });
-    console.log(response);
-    data = await response.json();
-    console.log(data);
-  }
-    
     if (data.signal === "red") alert(data.error);
     else {
       localStorage.setItem("usertoken", data.usertoken);
-      alert("logged in successfully");
+      <Alert
+        iconMapping={{
+          success: <CheckCircleOutlineIcon fontSize="inherit" />,
+        }}
+      >
+        This success Alert uses `iconMapping` to override the default icon.
+      </Alert>;
       handleModalClose(2);
     }
   };
@@ -475,6 +481,10 @@ function Navbar(props) {
                     ":hover": {
                       background: theme.palette.background.alt,
                     },
+                  }}
+                  onClick={() => {
+                    localStorage.removeItem('usertoken');
+                    handleModalClose(1);
                   }}
                 >
                   <LogoutIcon
