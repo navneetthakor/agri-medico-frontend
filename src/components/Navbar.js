@@ -1,13 +1,13 @@
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
   Dialog,
-  DialogTitle,
   IconButton,
   List,
   ListItem,
-  Modal,
+  TextField,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -18,7 +18,6 @@ import { useTheme } from "@emotion/react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
-import ScienceRoundedIcon from "@mui/icons-material/ScienceRounded";
 import { useDispatch, useSelector } from "react-redux";
 import { setMode } from "../store/Mode";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
@@ -28,8 +27,181 @@ import { Add, Close } from "@mui/icons-material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import NotInterestedIcon from "@mui/icons-material/NotInterested";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import { Field, Form, Formik } from "formik";
+import * as yup from "yup";
+import FlexCenter from "./FlexCenter";
+import styled from "@emotion/styled";
+
+// schema for formik form
+const userFormSchema = yup.object().shape({
+  image: yup.mixed(),
+  username: yup.string(),
+  email: yup.string().email().required("enter valid email"),
+  password: yup.string().min(4).max(16).required("password required"),
+  contact_num: yup.string(),
+});
+
+// error style
+const ErrorMessage = styled(Typography)({
+  color: "orangered",
+});
+
+// ---------------   actual function ---------------
 function Navbar(props) {
   const { isSidebarOpen, isNonMobile, setIsSidebarOpen } = props;
+
+  // formik form
+  const [selectedImage, setSelectedImage] = useState();
+  const [loginSignupState, setLoginSignupState] = useState('signup');
+
+  // to toggle login and signup
+  const handleLoginSignupToggle = () => {
+    if(loginSignupState === 'signup') setLoginSignupState('login');
+    else setLoginSignupState('signup')
+  };
+  const formik = (
+    <Formik
+      initialValues={{
+        image: "",
+        username: "",
+        email: "",
+        password: "",
+        contact_num: "",
+        // country: "",
+        // state: "",
+        // city: "",
+      }}
+      validationSchema={userFormSchema}
+      onSubmit={(values) => {
+        values.image = selectedImage;
+        alert(JSON.stringify(values));
+      }}
+    >
+      {({
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        isSubmitting,
+        /* and other goodies */
+      }) => (
+        <Form onSubmit={handleSubmit}>
+          <FlexCenter
+            style={{ flexDirection: "column", gap: "10px", height: isNonMobile ? "65vh" : "95vh" }}
+          >
+            <Box sx={{color: 'skyblue', ':hover' : {textDecoration: 'underline'}}} component={Button} onClick={handleLoginSignupToggle}>
+              Click here to {loginSignupState === 'signup' ? 'Sign-Up' : 'Login'}
+            </Box>
+          { loginSignupState === 'signup' &&   <Avatar
+              sx={{
+                width: 100,
+                height: 100,
+                cursor: "pointer",
+                margin: "15px 0px",
+              }}
+              component={Button}
+              onClick={() => document.getElementById("image").click()}
+            >
+              {selectedImage && (
+                <img
+                  src={URL.createObjectURL(selectedImage)}
+                  alt="uploaded img"
+                />
+              )}
+            </Avatar>}
+
+            {/* hidden input used by image avtar  */}
+            <input
+              id="image"
+              name="image"
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={(event) => {
+                setSelectedImage(event.target.files[0]);
+              }}
+            />
+
+            { loginSignupState === 'signup' && <Box>
+              <TextField
+                sx={{ width: isNonMobile ? "15vw" : "50vw" }}
+                variant="filled"
+                label="userName"
+                type="txt"
+                name="username"
+                id="username"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.username}
+              />
+              {errors.username && touched.username && (
+                <ErrorMessage>{errors.username} </ErrorMessage>
+              )}
+            </Box>}
+
+            <Box>
+              <TextField
+                sx={{ width: isNonMobile ? "15vw" : "50vw" }}
+                variant="filled"
+                label="email"
+                type="email"
+                name="email"
+                id="email"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email}
+              />
+              {errors.email && touched.email && (
+                <ErrorMessage>{errors.email} </ErrorMessage>
+              )}
+            </Box>
+           {loginSignupState === 'signup' &&  <Box>
+              <TextField
+                sx={{ width: isNonMobile ? "15vw" : "50vw" }}
+                variant="filled"
+                label="Contact Number"
+                type="txt"
+                name="contact_num"
+                id="contact_num"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.contact_num}
+              />
+              {errors.contact_num && touched.contact_num && (
+                <ErrorMessage>{errors.contact_num} </ErrorMessage>
+              )}
+            </Box>}
+            <Box>
+              <TextField
+                sx={{ width: isNonMobile ? "15vw" : "50vw" }}
+                variant="filled"
+                label="Password"
+                type="txt"
+                name="password"
+                id="password"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.password}
+              />
+              {errors.contact_num && touched.contact_num && (
+                <ErrorMessage>{errors.contact_num} </ErrorMessage>
+              )}
+            </Box>
+            <Button
+              sx={{ marginTop: isNonMobile ? "10px" : "25px" }}
+              variant="contained"
+              type="submit"
+              disabled={isSubmitting}
+            >
+              Submit
+            </Button>
+          </FlexCenter>
+        </Form>
+      )}
+    </Formik>
+  );
 
   //   to access theme
   const theme = useTheme();
@@ -62,7 +234,7 @@ function Navbar(props) {
         boxShadow: "none",
       }}
     >
-      <Toolbar sx={{ justifyContent: "space-between" , padding: '3px 8px'}}>
+      <Toolbar sx={{ justifyContent: "space-between", padding: "3px 8px" }}>
         {/* leftside button  */}
         <Box>
           {!isSidebarOpen && !isNonMobile && (
@@ -77,15 +249,15 @@ function Navbar(props) {
           sx={{
             display: "flex",
             gap: "10px",
-            border: '2px solid gray',
-            padding: '5px 10px',
-            borderRadius: '25px'
+            border: "2px solid gray",
+            padding: "5px 10px",
+            borderRadius: "25px",
           }}
         >
           <AutoAwesomeIcon
             sx={{
               fontSize: "25px",
-              color: '#4285f4'
+              color: "#4285f4",
             }}
           />
           <Typography
@@ -102,23 +274,6 @@ function Navbar(props) {
             Experimental
           </Typography>
         </Box>
-        {/* <Box
-          sx={{
-            background: 'linear-gradient(45deg, #4285f4, #9b72cb, #9b72cb, #d96570, #131314)',
-            // backgroundClip: 'text'
-            borderRadius: '8px',
-            padding: " 5px 15px",
-            display: 'flex',
-            alignItems:'center',
-            justifyContent: 'center',
-            fontWeight: '700',
-            // textShadow: mode === 'dark' ? '2px 2px 15px black' : '2px 2px 15px white',
-            gap: '5%'
-          }}
-        >
-            <ScienceRoundedIcon />
-          <Box sx={{fontSize: '18px'}}>Experimental</Box> 
-        </Box> */}
 
         {/* right side button  */}
         <FlexBetween>
@@ -132,8 +287,12 @@ function Navbar(props) {
             </IconButton>
           )}
           <IconButton
-            onClick={() => handleModalOpen(1)}
-            sx={{ marginLeft: isNonMobile?  "5%" : "2%"}}
+            onClick={() => {
+              localStorage.getItem("usertoken")
+                ? handleModalOpen(1)
+                : handleModalOpen(2);
+            }}
+            sx={{ marginLeft: isNonMobile ? "5%" : "2%" }}
           >
             <AccountCircleIcon sx={{ fontSize: "30px" }} />
           </IconButton>
@@ -277,9 +436,39 @@ function Navbar(props) {
               </List>
             </Box>
           </Dialog>
-          <Dialog open={isChildModalOpen} onClose={() => handleModalClose(2)}>
-            <DialogTitle>Hello</DialogTitle>
-            <Button onClick={() => handleModalClose(2)}>close chile</Button>
+
+          {/* login page  */}
+          <Dialog
+            open={isChildModalOpen}
+            onClose={() => handleModalClose(2)}
+            PaperProps={{
+              style: {
+                position: "absolute",
+                right: 0,
+                top: 0,
+                transform: "translate(0, 0)",
+                height: isNonMobile ? "70vh" : "100vh",
+                width: isNonMobile ? "30vw" : "100vw",
+                margin: isNonMobile ? "inherite" : "0px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                padding: "10px",
+                borderRadius: "25px",
+              },
+            }}
+          >
+            <IconButton
+              sx={{
+                position: "absolute",
+                top: 5,
+                right: 8,
+              }}
+              onClick={() => handleModalClose(2)}
+            >
+              <Close sx={{ color: "skyblue" }} />
+            </IconButton>
+            {formik}
           </Dialog>
         </FlexBetween>
       </Toolbar>
