@@ -92,7 +92,7 @@ function Navbar(props) {
             style={{ flexDirection: "column", gap: "10px", height: isNonMobile ? "65vh" : "95vh" }}
           >
             <Box sx={{color: 'skyblue', ':hover' : {textDecoration: 'underline'}}} component={Button} onClick={handleLoginSignupToggle}>
-              Click here to {loginSignupState === 'signup' ? 'Sign-Up' : 'Login'}
+              Click here to {loginSignupState === 'signup' ? 'Login' : 'Sign-Up'}
             </Box>
           { loginSignupState === 'signup' &&   <Avatar
               sx={{
