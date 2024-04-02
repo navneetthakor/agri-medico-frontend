@@ -44,6 +44,8 @@ const userFormSchema = yup.object().shape({
 // error style
 const ErrorMessage = styled(Typography)({
   color: "orangered",
+  padding: 0,
+  margin: 0,
 });
 
 // ---------------   actual function ---------------
@@ -89,7 +91,7 @@ function Navbar(props) {
       }) => (
         <Form onSubmit={handleSubmit}>
           <FlexCenter
-            style={{ flexDirection: "column", gap: "10px", height: isNonMobile ? "65vh" : "95vh" }}
+            style={{ flexDirection: "column", gap: "10px", height:"65vh" }}
           >
             <Box sx={{color: 'skyblue', ':hover' : {textDecoration: 'underline'}}} component={Button} onClick={handleLoginSignupToggle}>
               Click here to {loginSignupState === 'signup' ? 'Login' : 'Sign-Up'}
@@ -135,8 +137,8 @@ function Navbar(props) {
                 onBlur={handleBlur}
                 value={values.username}
               />
-              {errors.username && touched.username && (
-                <ErrorMessage>{errors.username} </ErrorMessage>
+              {values.username === '' && touched.username && (
+                <ErrorMessage>username required </ErrorMessage>
               )}
             </Box>}
 
