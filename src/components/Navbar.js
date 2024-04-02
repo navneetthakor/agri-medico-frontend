@@ -102,23 +102,7 @@ function Navbar(props) {
             Experimental
           </Typography>
         </Box>
-        {/* <Box
-          sx={{
-            background: 'linear-gradient(45deg, #4285f4, #9b72cb, #9b72cb, #d96570, #131314)',
-            // backgroundClip: 'text'
-            borderRadius: '8px',
-            padding: " 5px 15px",
-            display: 'flex',
-            alignItems:'center',
-            justifyContent: 'center',
-            fontWeight: '700',
-            // textShadow: mode === 'dark' ? '2px 2px 15px black' : '2px 2px 15px white',
-            gap: '5%'
-          }}
-        >
-            <ScienceRoundedIcon />
-          <Box sx={{fontSize: '18px'}}>Experimental</Box> 
-        </Box> */}
+
 
         {/* right side button  */}
         <FlexBetween>
@@ -132,7 +116,8 @@ function Navbar(props) {
             </IconButton>
           )}
           <IconButton
-            onClick={() => handleModalOpen(1)}
+            onClick={() => {
+              localStorage.getItem('usertoken')  ? handleModalOpen(1) : handleModalOpen(2)}}
             sx={{ marginLeft: isNonMobile?  "5%" : "2%"}}
           >
             <AccountCircleIcon sx={{ fontSize: "30px" }} />
@@ -277,9 +262,29 @@ function Navbar(props) {
               </List>
             </Box>
           </Dialog>
-          <Dialog open={isChildModalOpen} onClose={() => handleModalClose(2)}>
-            <DialogTitle>Hello</DialogTitle>
-            <Button onClick={() => handleModalClose(2)}>close chile</Button>
+
+          {/* login page  */}
+          <Dialog
+            open={isChildModalOpen}
+            onClose={() => handleModalClose(2)}
+            PaperProps={{
+              style: {
+                position: "absolute",
+                right: 0,
+                top: 0,
+                transform: "translate(0, 0)",
+                height: isNonMobile ? "70vh" : "100vh",
+                width: isNonMobile ? "30vw" : "100vw",
+                margin: isNonMobile ? "inherite" : "0px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                padding: "10px",
+                borderRadius: "25px",
+              },
+            }}
+          >
+            
           </Dialog>
         </FlexBetween>
       </Toolbar>
