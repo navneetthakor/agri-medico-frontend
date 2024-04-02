@@ -27,7 +27,7 @@ import { Add, Close } from "@mui/icons-material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import NotInterestedIcon from "@mui/icons-material/NotInterested";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as yup from "yup";
 import FlexCenter from "./FlexCenter";
 import styled from "@emotion/styled";
@@ -52,31 +52,73 @@ const ErrorMessage = styled(Typography)({
 function Navbar(props) {
   const { isSidebarOpen, isNonMobile, setIsSidebarOpen } = props;
 
+  //   to access theme
+  const theme = useTheme();
+
+  //   accessing mode
+  const mode = useSelector((state) => state.currMode.mode);
+  const dispatch = useDispatch();
+
+  // to handle open and close operatoin of user account modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isChildModalOpen, setIsChildModalOpen] = useState(false);
+
+  const handleModalOpen = (num) => {
+    if (num === 1) setIsModalOpen(true);
+    else setIsChildModalOpen(true);
+  };
+  const handleModalClose = (num) => {
+    if (num === 1) setIsModalOpen(false);
+    else setIsChildModalOpen(false);
+  };
+
   // formik form
   const [selectedImage, setSelectedImage] = useState();
-  const [loginSignupState, setLoginSignupState] = useState('signup');
+  const [loginSignupState, setLoginSignupState] = useState("signup");
+
+  // to handle form submit
+  const handleFormSubmit = async (values) => {
+    const formdata = new FormData();
+    if(selectedImage) formdata.append("image", selectedImage);
+    for (let [key, value] of Object.entries(values)) {
+      console.log(key, value);
+      formdata.append(key, value);
+    }
+
+    let url = `http://localhost:5001/user/`;
+    url += loginSignupState === 'signup' ? `createuser` : `userlogin`;
+    const response = await fetch(url, {
+      method: "POST",
+      body: formdata,
+    });
+    console.log(response);
+    const data = await response.json();
+    console.log(data);
+
+    if (data.signal === "red") alert(data.error);
+    else {
+      localStorage.setItem("usertoken", data.usertoken);
+      alert("logged in successfully");
+      handleModalClose(2);
+    }
+  };
 
   // to toggle login and signup
   const handleLoginSignupToggle = () => {
-    if(loginSignupState === 'signup') setLoginSignupState('login');
-    else setLoginSignupState('signup')
+    if (loginSignupState === "signup") setLoginSignupState("login");
+    else setLoginSignupState("signup");
   };
   const formik = (
     <Formik
       initialValues={{
-        image: "",
         username: "",
         email: "",
         password: "",
         contact_num: "",
-        // country: "",
-        // state: "",
-        // city: "",
       }}
       validationSchema={userFormSchema}
       onSubmit={(values) => {
-        values.image = selectedImage;
-        alert(JSON.stringify(values));
+        handleFormSubmit(values);
       }}
     >
       {({
@@ -91,27 +133,37 @@ function Navbar(props) {
       }) => (
         <Form onSubmit={handleSubmit}>
           <FlexCenter
-            style={{ flexDirection: "column", gap: "10px", height:"65vh" }}
+            style={{ flexDirection: "column", gap: "10px", height: "65vh" }}
           >
-            <Box sx={{color: 'skyblue', ':hover' : {textDecoration: 'underline'}}} component={Button} onClick={handleLoginSignupToggle}>
-              Click here to {loginSignupState === 'signup' ? 'Login' : 'Sign-Up'}
-            </Box>
-          { loginSignupState === 'signup' &&   <Avatar
+            <Box
               sx={{
-                width: 100,
-                height: 100,
-                cursor: "pointer",
+                color: "skyblue",
+                ":hover": { textDecoration: "underline" },
               }}
               component={Button}
-              onClick={() => document.getElementById("image").click()}
+              onClick={handleLoginSignupToggle}
             >
-              {selectedImage && (
-                <img
-                  src={URL.createObjectURL(selectedImage)}
-                  alt="uploaded img"
-                />
-              )}
-            </Avatar>}
+              Click here to{" "}
+              {loginSignupState === "signup" ? "Login" : "Sign-Up"}
+            </Box>
+            {loginSignupState === "signup" && (
+              <Avatar
+                sx={{
+                  width: 100,
+                  height: 100,
+                  cursor: "pointer",
+                }}
+                component={Button}
+                onClick={() => document.getElementById("image").click()}
+              >
+                {selectedImage && (
+                  <img
+                    src={URL.createObjectURL(selectedImage)}
+                    alt="uploaded img"
+                  />
+                )}
+              </Avatar>
+            )}
 
             {/* hidden input used by image avtar  */}
             <input
@@ -125,22 +177,24 @@ function Navbar(props) {
               }}
             />
 
-            { loginSignupState === 'signup' && <Box>
-              <TextField
-                sx={{ width: isNonMobile ? "15vw" : "50vw" }}
-                variant="standard"
-                label="userName"
-                type="txt"
-                name="username"
-                id="username"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.username}
-              />
-              {values.username === '' && touched.username && (
-                <ErrorMessage>username required </ErrorMessage>
-              )}
-            </Box>}
+            {loginSignupState === "signup" && (
+              <Box>
+                <TextField
+                  sx={{ width: isNonMobile ? "15vw" : "50vw" }}
+                  variant="standard"
+                  label="userName"
+                  type="txt"
+                  name="username"
+                  id="username"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.username}
+                />
+                {values.username === "" && touched.username && (
+                  <ErrorMessage>username required </ErrorMessage>
+                )}
+              </Box>
+            )}
 
             <Box>
               <TextField
@@ -158,22 +212,24 @@ function Navbar(props) {
                 <ErrorMessage>{errors.email} </ErrorMessage>
               )}
             </Box>
-           {loginSignupState === 'signup' &&  <Box>
-              <TextField
-                sx={{ width: isNonMobile ? "15vw" : "50vw" }}
-                variant="standard"
-                label="Contact Number"
-                type="txt"
-                name="contact_num"
-                id="contact_num"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.contact_num}
-              />
-              {errors.contact_num && touched.contact_num && (
-                <ErrorMessage>{errors.contact_num} </ErrorMessage>
-              )}
-            </Box>}
+            {loginSignupState === "signup" && (
+              <Box>
+                <TextField
+                  sx={{ width: isNonMobile ? "15vw" : "50vw" }}
+                  variant="standard"
+                  label="Contact Number"
+                  type="txt"
+                  name="contact_num"
+                  id="contact_num"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.contact_num}
+                />
+                {errors.contact_num && touched.contact_num && (
+                  <ErrorMessage>{errors.contact_num} </ErrorMessage>
+                )}
+              </Box>
+            )}
             <Box>
               <TextField
                 sx={{ width: isNonMobile ? "15vw" : "50vw" }}
@@ -194,7 +250,7 @@ function Navbar(props) {
               sx={{ marginTop: isNonMobile ? "10px" : "25px" }}
               variant="contained"
               type="submit"
-              disabled={isSubmitting}
+              onClick={handleSubmit}
             >
               Submit
             </Button>
@@ -203,26 +259,6 @@ function Navbar(props) {
       )}
     </Formik>
   );
-
-  //   to access theme
-  const theme = useTheme();
-
-  //   accessing mode
-  const mode = useSelector((state) => state.currMode.mode);
-  const dispatch = useDispatch();
-
-  // to handle open and close operatoin of user account modal
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isChildModalOpen, setIsChildModalOpen] = useState(false);
-
-  const handleModalOpen = (num) => {
-    if (num === 1) setIsModalOpen(true);
-    else setIsChildModalOpen(true);
-  };
-  const handleModalClose = (num) => {
-    if (num === 1) setIsModalOpen(false);
-    else setIsChildModalOpen(false);
-  };
 
   // ----------actually returning component
   return (
