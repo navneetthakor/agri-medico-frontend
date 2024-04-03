@@ -52,7 +52,7 @@ function Sidebar(props) {
 
   useEffect(() => {
     getUserHistory()
-  })
+  }, [localStorage.getItem("usertoken"), userHistory])
 
   return (
     <Drawer
