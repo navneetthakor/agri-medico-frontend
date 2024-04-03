@@ -325,13 +325,15 @@ function Navbar(props) {
     >
       <Toolbar sx={{ justifyContent: "space-between", padding: "3px 8px" }}>
         {/* leftside button  */}
-        <Box>
+        
           {!isSidebarOpen && !isNonMobile && (
+            <Box>
             <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
               <MenuOpenIcon sx={{ fontSize: "30px" }} />
             </IconButton>
+            </Box>
           )}
-        </Box>
+        
 
         {/* senter logo  */}
         <Box
@@ -341,6 +343,7 @@ function Navbar(props) {
             border: "2px solid gray",
             padding: "5px 10px",
             borderRadius: "25px",
+            marginLeft: isNonMobile && '15px'
           }}
         >
           <AutoAwesomeIcon
