@@ -53,7 +53,7 @@ const ErrorMessage = styled(Typography)({
 
 // ---------------   actual function ---------------
 function Navbar(props) {
-  const { isSidebarOpen, isNonMobile, setIsSidebarOpen } = props;
+  const { isSidebarOpen, isNonMobile, setIsSidebarOpen, isUserLoggedin, setIsUserLoggedin } = props;
 
   //   to access theme
   const theme = useTheme();
@@ -124,6 +124,7 @@ function Navbar(props) {
       >
         This success Alert uses `iconMapping` to override the default icon.
       </Alert>;
+      setIsUserLoggedin(true);
       handleModalClose(2);
     }
   };
@@ -310,7 +311,7 @@ function Navbar(props) {
       }
     };
     togetUser();
-  }, [localStorage.getItem("usertoken")]);
+  }, [isUserLoggedin]);
 
   // ----------actually returning component
   return (
@@ -540,6 +541,7 @@ function Navbar(props) {
                   }}
                   onClick={() => {
                     localStorage.removeItem("usertoken");
+                    setIsUserLoggedin(false);
                     handleModalClose(1);
                   }}
                 >
