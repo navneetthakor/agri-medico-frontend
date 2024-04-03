@@ -25,7 +25,7 @@ function Sidebar(props) {
   const navigate = useNavigate()
   const context = useContext(fetchContext)
   const { setUserHistoryData, historyData} = context
-  const { isSidebarOpen, isNonMobile, setIsSidebarOpen } = props;
+  const { isSidebarOpen, isNonMobile, setIsSidebarOpen,isUserLoggedin } = props;
   const [userHistory, setUserHistory] = useState([])
   // to use theme
   const theme = useTheme();
@@ -36,6 +36,7 @@ function Sidebar(props) {
     setIsHelpMenuOpen(!isHelpMenuOpen);
   };
 
+  // --- user history related logic 
   const getUserHistory = async () => {
     try {
 
@@ -47,9 +48,14 @@ function Sidebar(props) {
           "usertoken": localStorage.getItem("usertoken")
         }
       })
-      const json = await history.json()
-      console.log("history is : ", json)
-      setUserHistory(json?.search_history.reverse() || [])
+      const data = await history.json()
+      console.log(data);
+      if(data.signal === 'green'){
+        setUserHistory(data.history.search_history);
+      }
+      else{
+        setUserHistory([]);
+      }
     } catch (e) {
       console.log(e)
     }
@@ -62,13 +68,8 @@ function Sidebar(props) {
   }
 
   useEffect(() => {
-    if(!localStorage.getItem('usertoken')){
-      setUserHistory([])
-    }
-    else{
-      getUserHistory()
-    }
-  }, [userHistory])
+    getUserHistory();
+  }, [isUserLoggedin])
 
   return (
     <Drawer
