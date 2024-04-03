@@ -5,6 +5,7 @@ import {
   Box,
   Button,
   Dialog,
+  Grow,
   IconButton,
   List,
   ListItem,
@@ -12,7 +13,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FlexBetween from "./FlexBetween";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import { useTheme } from "@emotion/react";
@@ -32,7 +33,7 @@ import { Form, Formik } from "formik";
 import * as yup from "yup";
 import FlexCenter from "./FlexCenter";
 import styled from "@emotion/styled";
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 // schema for formik form
 const userFormSchema = yup.object().shape({
@@ -173,15 +174,16 @@ function Navbar(props) {
             {loginSignupState === "signup" && (
               <Avatar
                 sx={{
-                  width: 100,
-                  height: 100,
+                  width: 110,
+                  height: 110,
                   cursor: "pointer",
                 }}
                 component={Button}
                 onClick={() => document.getElementById("image").click()}
               >
                 {selectedImage && (
-                  <img
+                  <Avatar
+                    sx={{width: '100px', height: '100px'}}
                     src={URL.createObjectURL(selectedImage)}
                     alt="uploaded img"
                   />
@@ -284,6 +286,32 @@ function Navbar(props) {
     </Formik>
   );
 
+  const [user, setUser] = useState({
+    // username: ''
+  });
+  useEffect(() => {
+    const togetUser = async () => {
+      if (localStorage.getItem("usertoken")) {
+        const url = "http://localhost:5001/user/userAuthtokenLogin";
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            usertoken: localStorage.getItem("usertoken"),
+          },
+        });
+        console.log(response);
+        const data = await response.json();
+        console.log(data);
+
+        if (data.signal === "green") {
+          setUser(data.user);
+        }
+      }
+    };
+    togetUser();
+  }, [localStorage.getItem("usertoken")]);
+
   // ----------actually returning component
   return (
     <AppBar
@@ -374,7 +402,7 @@ function Navbar(props) {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                padding: "10px",
+                padding: isNonMobile ? "10px" : '20px',
                 borderRadius: "25px",
               },
             }}
@@ -389,11 +417,32 @@ function Navbar(props) {
             >
               <Close sx={{ color: "skyblue" }} />
             </IconButton>
-            <Typography variant="h6">codewithnavneet@gmail.com</Typography>
-            <IconButton>
-              <AccountCircleIcon sx={{ fontSize: "100px" }} />
+            <Typography variant="h6">{user.email && user.email}</Typography>
+            <IconButton height>
+              {user.image && user.image ? (
+                <Avatar
+                  sx={{
+                    height: "110px",
+                    width: "110px",  //"linear-gradient(45deg, #4285f4, #9b72cb, #9b72cb, #d96570, #131314)",
+                    borderRadius: "50px" / 2,
+                    borderTop: '5px solid #4285f4',
+                    borderLeft: '5px solid #9b72cb',
+                    borderRight: '5px solid #4285f4',
+                    borderBottom: '5px solid #9b72cb'
+                  }}
+                  src={`http://localhost:5001/${user.image}`.replace(
+                    "/\\/g",
+                    "/"
+                    )}
+                    alt="user"
+                    />
+              ) : (
+                <AccountCircleIcon sx={{ fontSize: "100px" }} />
+              )}
             </IconButton>
-            <Typography variant="h3">Hi NavneetKumar!</Typography>
+            <Typography variant="h3">
+              Hi {user.username && user.username}!
+            </Typography>
 
             <Box
               sx={{
@@ -440,7 +489,6 @@ function Navbar(props) {
                       background: theme.palette.background.alt,
                     },
                   }}
-
                   onClick={() => {
                     handleModalClose(1);
                     handleModalOpen(2);
@@ -488,7 +536,7 @@ function Navbar(props) {
                     },
                   }}
                   onClick={() => {
-                    localStorage.removeItem('usertoken');
+                    localStorage.removeItem("usertoken");
                     handleModalClose(1);
                   }}
                 >
@@ -506,7 +554,6 @@ function Navbar(props) {
               </List>
             </Box>
           </Dialog>
-
           {/* login page  */}
           <Dialog
             open={isChildModalOpen}
