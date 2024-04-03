@@ -15,27 +15,32 @@ const Result = () => {
   const [showDiseaseContent, setShowDiseaseContent] = useState(false);
   const [showMedicineContent, setShowMedicineContent] = useState(false);
   const [userFileName, setUserFilename] = useState("")
-  
   const addToUserHistory = async ()=>{
+    console.log("disease: ", diseaseData, userFileName)
     const disease_obj = {
       disease: diseaseData._id,
       img: userFileName,
     }
     const response = await fetch('http://localhost:5001/userHistory/addToUserHistory', {
-        method: "POST",
+        method: "PUT",
         mode: "cors",
         headers:{
           "Content-Type": "application/json",
           "usertoken": localStorage.getItem("usertoken")
         },
-        body: JSON.stringify(disease_obj)
+        body: JSON.stringify({disease_obj})
       })
+
+      const json = await response.json()
+      console.log(json)
     }
     
     // useEffect for storing the details of corresponding user.
     useEffect(() => {
-    addToUserHistory()
-  }, [])
+      if(diseaseData._id !== null){
+        addToUserHistory()
+      }
+  }, [diseaseData])
   
   
   // useEffect for disease and medicine data.

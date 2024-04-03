@@ -10,7 +10,7 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FlexBetween from "./FlexBetween";
 import { ChevronLeft } from "@mui/icons-material";
 import { useTheme } from "@emotion/react";
@@ -21,7 +21,7 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
 function Sidebar(props) {
   const { isSidebarOpen, isNonMobile, setIsSidebarOpen } = props;
-
+  const [userHistory, setUserHistory] = useState([])
   // to use theme
   const theme = useTheme();
 
@@ -31,40 +31,28 @@ function Sidebar(props) {
     setIsHelpMenuOpen(!isHelpMenuOpen);
   };
 
-  const hello = [
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-    "hello",
-  ];
+  const getUserHistory = async () => {
+    try {
+
+      const history = await fetch('http://localhost:5001/userHistory/getUserHistory', {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          "usertoken": localStorage.getItem("usertoken")
+        }
+      })
+      const json = await history.json()
+      console.log("history is : ", json)
+      setUserHistory(json?.search_history.reverse() || [])
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  useEffect(() => {
+    getUserHistory()
+  })
 
   return (
     <Drawer
@@ -110,14 +98,16 @@ function Sidebar(props) {
         }}
       >
         <List>
-          {hello?.map((iteam) => (
+          {userHistory?.map((iteam) => (
             <ListItem
               sx={{
-                height: "5vh",
+                height: "8vh",
               }}
+              key={iteam.search_date}
             >
               <ChatBubbleOutlineIcon />
-              <Typography marginLeft='10px' variant="h6">{iteam}</Typography>
+              {/* <Typography marginLeft='10px' variant="h6">{iteam.search_date.substring(0,19)}</Typography> */}
+              <Typography marginLeft='10px' variant="h6">Date: {iteam.search_date.substring(0,10)}<br/>Time: {iteam.search_date.substring(11,19)}</Typography>
             </ListItem>
           ))}
         </List>
