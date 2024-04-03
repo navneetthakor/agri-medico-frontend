@@ -11,6 +11,7 @@ import RootLayout from "./scens/RootLayout";
 import Welcome from "./components/Welcome";
 import FetchState from "./context/fetch/FetchState";
 import Result from "./components/Result";
+import HistoryResult from "./components/HistoryResult";
 
 // router setup 
 
@@ -27,6 +28,7 @@ function App() {
     <Route exact path="/" element={<RootLayout />}>
       <Route index element={<Welcome />} />
       <Route exact path="/result" element={<Result />} />
+      <Route exact path="/result/:date" element={<HistoryResult />} />
     </Route>
   ))
   return (

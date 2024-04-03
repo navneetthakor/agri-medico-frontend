@@ -10,7 +10,7 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import FlexBetween from "./FlexBetween";
 import { ChevronLeft } from "@mui/icons-material";
 import { useTheme } from "@emotion/react";
@@ -18,8 +18,13 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import HistoryIcon from "@mui/icons-material/History";
 import InfoIcon from "@mui/icons-material/Info";
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import {useNavigate} from 'react-router-dom'
+import fetchContext from '../context/fetch/fetchContext';
 
 function Sidebar(props) {
+  const navigate = useNavigate()
+  const context = useContext(fetchContext)
+  const { setUserHistoryData, historyData} = context
   const { isSidebarOpen, isNonMobile, setIsSidebarOpen } = props;
   const [userHistory, setUserHistory] = useState([])
   // to use theme
@@ -50,9 +55,20 @@ function Sidebar(props) {
     }
   }
 
+  const handleHistory = (item)=>{
+    console.log("item is : ",item)
+    setUserHistoryData(item)
+    navigate(`/result/${item.search_date}`)
+  }
+
   useEffect(() => {
-    getUserHistory()
-  }, [localStorage.getItem("usertoken"), userHistory])
+    if(!localStorage.getItem('usertoken')){
+      setUserHistory([])
+    }
+    else{
+      getUserHistory()
+    }
+  }, [userHistory])
 
   return (
     <Drawer
@@ -102,8 +118,10 @@ function Sidebar(props) {
             <ListItem
               sx={{
                 height: "8vh",
+                cursor: "pointer"
               }}
               key={iteam.search_date}
+              onClick={()=>handleHistory(iteam)}
             >
               <ChatBubbleOutlineIcon />
               {/* <Typography marginLeft='10px' variant="h6">{iteam.search_date.substring(0,19)}</Typography> */}

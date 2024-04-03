@@ -15,6 +15,8 @@ const Result = () => {
   const [showDiseaseContent, setShowDiseaseContent] = useState(false);
   const [showMedicineContent, setShowMedicineContent] = useState(false);
   const [userFileName, setUserFilename] = useState("")
+
+  
   const addToUserHistory = async ()=>{
     console.log("disease: ", diseaseData, userFileName)
     const disease_obj = {
