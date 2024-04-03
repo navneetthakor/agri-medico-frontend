@@ -28,7 +28,7 @@ function App() {
     <Route exact path="/" element={<RootLayout />}>
       <Route index element={<Welcome />} />
       <Route exact path="/result" element={<Result />} />
-      <Route exact path="/result/:date" element={<HistoryResult />} />
+      <Route exact path="/result/:userHistoryId" element={<HistoryResult />} />
     </Route>
   ))
   return (

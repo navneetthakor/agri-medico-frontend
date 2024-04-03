@@ -1,21 +1,15 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/system';
-import fetchContext from '../context/fetch/fetchContext';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
+
 
 const HistoryResult = () => {
-    const context = useContext(fetchContext)
-    const { historyData } = context
+    const {userHistoryId} = useParams()
     const [result, setResult] = useState({})
-    const [diseaseData, setDiseaseData] = useState({});
-    const [medicineData, setMedicineData] = useState([]);
-    const [showDiseaseContent, setShowDiseaseContent] = useState(false);
-    const [showMedicineContent, setShowMedicineContent] = useState(false);
-    const [userFileName, setUserFilename] = useState("")
+    const [isResult, setIsResult] = useState(false);
+
+    // for navigation 
+    const navigate = useNavigate();
 
     const fetchDiseaseDetails = async () => {
         const response = await fetch('http://localhost:5001/disease/getdiseasebyid', {
@@ -23,55 +17,31 @@ const HistoryResult = () => {
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
+                "usertoken": localStorage.getItem('usertoken')
             },
-            body: JSON.stringify({ id: historyData.disease })
+            body: JSON.stringify({ id: userHistoryId })
         })
-        const json = await response.json()
-        setResult(json)
-        console.log("fetched details are : ", json)
+        const data = await response.json()
+        
+        if(data.signal === 'green'){
+            setResult(data.result);
+            setIsResult(true);
+            return;
+        }
+        alert('server not responding');
+        navigate('/');
+
+        
     }
 
     useEffect(() => {
         fetchDiseaseDetails()
-    }, [historyData])
-
-    useEffect(() => {
-        if (result.disease) {
-            setDiseaseData(result.disease);
-        }
-        if (result.medicines) {
-            setMedicineData(result.medicines);
-        }
-        if (result.imagePath) {
-            setUserFilename(historyData.img)
-        }
-
-        const timeout1 = setTimeout(() => {
-            setShowDiseaseContent(true);
-        }, 1000);
-
-        const timeout2 = setTimeout(() => {
-            setShowMedicineContent(true);
-        }, 1500);
-
-        // Clear the timeout to avoid memory leaks
-        return () => {
-            clearTimeout(timeout1);
-            clearTimeout(timeout2);
-        };
-    }, [historyData]);
-
-    if (result.error) {
-        return (
-            <p>No results found.</p>
-        );
-    }
-
+    }, [userHistoryId])
 
     return (
         <>
-
-            <div style={{ marginLeft: '10vw' }}>
+           {isResult && <Box>Hello</Box>}
+            {/* <div style={{ marginLeft: '10vw' }}>
                 <h2>Search Date: {historyData.search_date.substring(0, 10)} and Time: {historyData.search_date.substring(11, 19)}</h2>
                 {showDiseaseContent && (
                     <>
@@ -134,7 +104,7 @@ const HistoryResult = () => {
                         )}
                     </>
                 )}
-            </div>
+            </div> */}
         </>
     )
 }

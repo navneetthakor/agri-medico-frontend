@@ -64,7 +64,7 @@ function Sidebar(props) {
   const handleHistory = (item)=>{
     console.log("item is : ",item)
     setUserHistoryData(item)
-    navigate(`/result/${item.search_date}`)
+    navigate(`/result/${item._id}`)
   }
 
   useEffect(() => {
