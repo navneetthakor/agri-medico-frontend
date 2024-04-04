@@ -42,8 +42,29 @@ const Welcome = () => {
             body: formData
         });
         const json = await response.json();
-        updateResult(json);
-        navigate('/result');
+        // updateResult(json);
+
+
+
+        //storing to userhistory
+        const disease_obj = {
+            disease: json.diseaseDetailsResponse._id,
+            img: file.name,
+        }
+        const response2 = await fetch('http://localhost:5001/userHistory/addToUserHistory', {
+            method: "PUT",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "usertoken": localStorage.getItem("usertoken")
+            },
+            body: JSON.stringify({ disease_obj })
+        })
+
+        const json2 = await response2.json()
+        console.log("json2 is : ",json2, "time is : ", Date.now)
+
+        navigate(`/result/${json2.historyId}/${json2.data._id}`);
     }
 
 
@@ -74,19 +95,19 @@ const Welcome = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
             }}>
-                <Card sx={{ maxWidth: 245, borderRadius:'10px', marginLeft:'80px', marginRight:'4px' }}>
+                <Card sx={{ maxWidth: 245, borderRadius: '10px', marginLeft: '80px', marginRight: '4px' }}>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                             Step-1
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            Upload a clear leaf image with the help of upload file button. Make sure to involve that part of leaf image which consists of the  affected region for accurate predictions. 
+                            Upload a clear leaf image with the help of upload file button. Make sure to involve that part of leaf image which consists of the  affected region for accurate predictions.
                         </Typography>
                     </CardContent>
                 </Card>
 
 
-                <Card sx={{ maxWidth: 245, borderRadius:'10px', marginLeft:'4px', marginRight:'4px' }}>
+                <Card sx={{ maxWidth: 245, borderRadius: '10px', marginLeft: '4px', marginRight: '4px' }}>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                             Step-2
@@ -98,13 +119,13 @@ const Welcome = () => {
                 </Card>
 
 
-                <Card sx={{ maxWidth: 245, borderRadius:'10px', marginLeft:'4px', marginRight:'4px' }}>
+                <Card sx={{ maxWidth: 245, borderRadius: '10px', marginLeft: '4px', marginRight: '4px' }}>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                             Step-3
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            Take control of viewing your past queries with our feature to see the past response. You can also delete your history as per your wish. Feel free to contact us anytime! 
+                            Take control of viewing your past queries with our feature to see the past response. You can also delete your history as per your wish. Feel free to contact us anytime!
                         </Typography>
                     </CardContent>
                 </Card>

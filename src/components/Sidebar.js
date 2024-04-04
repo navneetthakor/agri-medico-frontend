@@ -26,7 +26,7 @@ function Sidebar(props) {
   const context = useContext(fetchContext)
   const { setUserHistoryData, historyData} = context
   const { isSidebarOpen, isNonMobile, setIsSidebarOpen,isUserLoggedin } = props;
-  const [userHistory, setUserHistory] = useState([])
+  const [userHistory, setUserHistory] = useState({})
   // to use theme
   const theme = useTheme();
 
@@ -51,10 +51,10 @@ function Sidebar(props) {
       const data = await history.json()
       console.log(data);
       if(data.signal === 'green'){
-        setUserHistory(data.history.search_history);
+        setUserHistory(data.history);
       }
       else{
-        setUserHistory([]);
+        setUserHistory({});
       }
     } catch (e) {
       console.log(e)
@@ -64,7 +64,8 @@ function Sidebar(props) {
   const handleHistory = (item)=>{
     console.log("item is : ",item)
     setUserHistoryData(item)
-    navigate(`/result/${item._id}`)
+
+    navigate(`/result/${userHistory._id}/${item._id}`)
   }
 
   useEffect(() => {
@@ -115,7 +116,7 @@ function Sidebar(props) {
         }}
       >
         <List>
-          {userHistory?.map((iteam) => (
+          {userHistory.search_history?.map((iteam) => (
             <ListItem
               sx={{
                 height: "8vh",

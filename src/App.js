@@ -27,8 +27,7 @@ function App() {
   const router = createBrowserRouter(createRoutesFromElements(
     <Route exact path="/" element={<RootLayout />}>
       <Route index element={<Welcome />} />
-      <Route exact path="/result" element={<Result />} />
-      <Route exact path="/result/:userHistoryId" element={<HistoryResult />} />
+      <Route exact path="/result/:userHistoryId/:searchHistoryId" element={<Result />} />
     </Route>
   ))
   return (

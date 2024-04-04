@@ -6,55 +6,92 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 const Result = () => {
+  const navigate = useNavigate()
+  const {userHistoryId, searchHistoryId} = useParams()
   const context = useContext(fetchContext);
-  const { result } = context;
+  const { result, updateResult } = context;
   const [diseaseData, setDiseaseData] = useState({});
   const [medicineData, setMedicineData] = useState([]);
   const [showDiseaseContent, setShowDiseaseContent] = useState(false);
   const [showMedicineContent, setShowMedicineContent] = useState(false);
   const [userFileName, setUserFilename] = useState("")
 
-  
-  const addToUserHistory = async ()=>{
-    console.log("disease: ", diseaseData, userFileName)
-    const disease_obj = {
-      disease: diseaseData._id,
-      img: userFileName,
-    }
-    const response = await fetch('http://localhost:5001/userHistory/addToUserHistory', {
-        method: "PUT",
-        mode: "cors",
-        headers:{
-          "Content-Type": "application/json",
-          "usertoken": localStorage.getItem("usertoken")
-        },
-        body: JSON.stringify({disease_obj})
-      })
+  console.log("hi")
 
-      const json = await response.json()
-      console.log(json)
+  // for result page to navigate to welcome page when user logs out
+  useEffect(() => {
+    if(!localStorage.getItem('usertoken')){
+      navigate('/')
     }
+  }, [localStorage.getItem('usertoken')])
+  
+
+  const showResult = async () => {
+    try{
+      const response = await fetch('http://localhost:5001/userHistory/getdiseasebyhistoryid', {
+          method:"POST",
+          mode:"cors",
+          headers:{
+            "Content-Type": "application/json",
+            "usertoken": localStorage.getItem('usertoken')
+          },
+          body: JSON.stringify({ userHistoryId, searchHistoryId })
+      })
+      const json = await response.json()
+      console.log("data by backend : ",json)
+      updateResult(json)
+    }catch(e){
+      console.log(e)
+    }
+  }
+
+  useEffect(() => {
+    showResult()
+  }, [searchHistoryId])
+  
+
+
+  // const addToUserHistory = async ()=>{
+  //   console.log("disease: ", diseaseData, userFileName)
+  //   const disease_obj = {
+  //     disease: diseaseData._id,
+  //     img: userFileName,
+  //   }
+  //   const response = await fetch('http://localhost:5001/userHistory/addToUserHistory', {
+  //       method: "PUT",
+  //       mode: "cors",
+  //       headers:{
+  //         "Content-Type": "application/json",
+  //         "usertoken": localStorage.getItem("usertoken")
+  //       },
+  //       body: JSON.stringify({disease_obj})
+  //     })
+
+  //     const json = await response.json()
+  //     console.log(json)
+  //   }
     
     // useEffect for storing the details of corresponding user.
-    useEffect(() => {
-      if(diseaseData._id !== null){
-        addToUserHistory()
-      }
-  }, [diseaseData])
+  //   useEffect(() => {
+  //     if(diseaseData._id !== null){
+  //       addToUserHistory()
+  //     }
+  // }, [diseaseData])
   
   
   // useEffect for disease and medicine data.
   useEffect(() => {
-    if (result.diseaseDetailsResponse) {
-      setDiseaseData(result.diseaseDetailsResponse);
+    if (result.medicines) {
+      setDiseaseData(result.disease);
     }
-    if (result.medicineDetailsResponse) {
-      setMedicineData(result.medicineDetailsResponse);
+    if (result.medicines) {
+      setMedicineData(result.medicines);
     }
-    if (result.imagePath) {
-      setUserFilename(result.imagePath)
+    if (result.img) {
+      setUserFilename(result.img)
     }
 
 
