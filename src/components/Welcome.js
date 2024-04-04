@@ -31,7 +31,7 @@ function Welcome() {
   const isNonMobile = useOutletContext();
 
   const context = useContext(fetchContext);
-  const { result, updateResult } = context;
+  const { result, getDummyResult } = context;
   const navigate = useNavigate();
 
   const handleImageSubmit = async (event) => {
@@ -48,7 +48,13 @@ function Welcome() {
       }
     );
     const json = await response.json();
-    // updateResult(json);
+
+    if(!localStorage.getItem('usertoken')){
+      console.log("json is : ", json)
+      getDummyResult(json)
+      navigate('/result')
+      return;
+    }
 
     //storing to userhistory
     const disease_obj = {

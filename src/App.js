@@ -14,6 +14,7 @@ import Result from "./components/Result";
 import HistoryResult from "./components/HistoryResult";
 import AboutUs from "./components/AboutUs";
 import Loading from "./components/Loading";
+import DummyResult from "./components/DummyResult";
 
 // router setup 
 
@@ -31,6 +32,7 @@ function App() {
       <Route index element={<Welcome />} />
       <Route exact path="/result/:userHistoryId/:searchHistoryId" element={<Result />} />
       <Route exact path="/aboutus" element={<AboutUs />} />
+      <Route exact path="/result" element={<DummyResult />} />
       <Route exact path="/loading" element={<Loading />} />
     </Route>
   ))
