@@ -72,6 +72,14 @@ function Sidebar(props) {
     getUserHistory();
   }, [isUserLoggedin])
 
+  const handleAboutUs = () => {
+    navigate('/aboutus')
+  }
+
+  const headToHomePage = ()=>{
+    navigate('/')
+  }
+
   return (
     <Drawer
       sx={{
@@ -93,7 +101,7 @@ function Sidebar(props) {
         }}
       >
         <FlexBetween>
-          <Typography variant="h2" sx={{ fontWeight: "700" }}>
+          <Typography variant="h2" sx={{ fontWeight: "700", cursor:'pointer' }} onClick={headToHomePage}>
             Agri-Medico
           </Typography>
           {!isNonMobile && (
@@ -184,7 +192,7 @@ function Sidebar(props) {
           </ListItem>
           <ListItem>
             <InfoIcon />
-            <Typography marginLeft='10px' variant="h6">About Us</Typography>
+            <Typography marginLeft='10px' variant="h6" onClick={handleAboutUs} sx={{cursor:'pointer'}}>About Us</Typography>
           </ListItem>
         </List>
       </Box>
