@@ -60,9 +60,9 @@ function Sidebar(props) {
         if (data.signal === 'green') {
           setUserHistory(data.history);
         }
-        else {
-          setUserHistory({});
-        }
+      }
+      else {
+        setUserHistory({});
       }
     } catch (e) {
       console.log(e)
