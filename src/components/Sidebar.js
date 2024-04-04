@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import React, { useState, useEffect, useContext } from "react";
 import FlexBetween from "./FlexBetween";
-import { ChevronLeft } from "@mui/icons-material";
+import { ChevronLeft, Image } from "@mui/icons-material";
 import { useTheme } from "@emotion/react";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import HistoryIcon from "@mui/icons-material/History";
@@ -20,6 +20,8 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import {useNavigate} from 'react-router-dom'
 import fetchContext from '../context/fetch/fetchContext';
 import logo from '../asset/agri-medico-logo.png';
+import logo2 from '../asset/Agri-Medico-logo2.png';
+import { useSelector } from "react-redux";
 
 function Sidebar(props) {
   const navigate = useNavigate()
@@ -27,6 +29,10 @@ function Sidebar(props) {
   const { setUserHistoryData, historyData} = context
   const { isSidebarOpen, isNonMobile, setIsSidebarOpen,isUserLoggedin } = props;
   const [userHistory, setUserHistory] = useState({})
+
+  // to access current mode 
+  const mode = useSelector((state) => state.currMode.mode);
+
   // to use theme
   const theme = useTheme();
 
@@ -101,9 +107,16 @@ function Sidebar(props) {
         }}
       >
         <FlexBetween>
-          <Typography variant="h2" sx={{ fontWeight: "700", cursor:'pointer' }} onClick={headToHomePage}>
-            Agri-Medico
-          </Typography>
+          <Box
+          sx={{
+            height: '8vh',
+            width: '230px',
+            // border: '2px solid red',
+            overflow: 'hidden'
+          }}
+          >
+          <img style={{height: '100%', width: '100%'}} src={mode === 'dark' ? logo2 :logo}  alt='logo' />
+          </Box>
           {!isNonMobile && (
             <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
               <ChevronLeft sx={{ fontSize: "25px" }} />
