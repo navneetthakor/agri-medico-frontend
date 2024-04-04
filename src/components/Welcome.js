@@ -59,7 +59,7 @@ function Welcome() {
     //storing to userhistory
     const disease_obj = {
       disease: json.diseaseDetailsResponse._id,
-      img: file.name,
+      img: json.imagePath,
     };
     const response2 = await fetch(
       "http://localhost:5001/userHistory/addToUserHistory",

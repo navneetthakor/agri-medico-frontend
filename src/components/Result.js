@@ -70,7 +70,7 @@ const Result = () => {
       console.log("img is : ", result.img)
       setUserFilename(result.img)
     }
-  }, []);
+  }, [result]);
 
   if (result.error) {
     return (
