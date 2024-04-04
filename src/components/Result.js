@@ -6,8 +6,8 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
-
+import { useNavigate, useParams } from 'react-router-dom';
+import Loading from './Loading';
 const Result = () => {
   const navigate = useNavigate()
   const { userHistoryId, searchHistoryId } = useParams()
@@ -16,8 +16,7 @@ const Result = () => {
   const [diseaseData, setDiseaseData] = useState({});
   const [medicineData, setMedicineData] = useState([]);
   const [userFileName, setUserFilename] = useState("")
-
-  console.log("hi")
+  const [isResult, setIsResult] = useState(false);
 
   // for result page to navigate to welcome page when user logs out
   useEffect(() => {
@@ -42,6 +41,9 @@ const Result = () => {
       console.log("data by backend : ", json)
       if (json.signal === 'green') {
         updateResult(json)
+        setTimeout(()=>{
+          setIsResult(true);
+        },2000)
         return;
       }
       alert('server not responding');
@@ -68,7 +70,7 @@ const Result = () => {
       console.log("img is : ", result.img)
       setUserFilename(result.img)
     }
-  }, [result]);
+  }, []);
 
   if (result.error) {
     return (
@@ -77,7 +79,8 @@ const Result = () => {
   }
 
   return (
-    <div style={{ marginLeft: '10vw' }}>
+    <>
+    { isResult ? <div style={{ marginLeft: '10vw' }}>
       {(
         <>
           {Object.keys(diseaseData).length > 0 && (
@@ -87,6 +90,7 @@ const Result = () => {
                 maxWidth: 345,
                 marginTop: '4vh',
               }}>
+                {console.log(userFileName)}
                 <CardActionArea>
                   <CardMedia
                     component="img"
@@ -151,6 +155,8 @@ const Result = () => {
         </>
       )}
     </div>
+    : <Loading /> }
+    </>
   );
 };
 
