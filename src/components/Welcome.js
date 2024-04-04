@@ -58,7 +58,7 @@ function Welcome() {
 
     //storing to userhistory
     const disease_obj = {
-      disease: json.diseaseDetailsResponse._id,
+      disease: json.diseaseDetailsResponse.disease._id,
       img: json.imagePath,
     };
     const response2 = await fetch(
