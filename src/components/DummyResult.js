@@ -94,11 +94,11 @@ const DummyResult = () => {
                                                     <b>Description</b>: {medicine.description}
                                                 </Typography>
                                                 <Typography variant="body2" color="text.secondary" sx={{ marginTop: '5px' }}>
-                                                    {medicine.urls.map((url) => {
+                                                    {medicine.urls.map((url,index) => {
                                                         return (
-                                                            <div style={{ marginTop: '5px' }}>
+                                                            <span key={index} style={{ marginTop: '5px' }}>
                                                                 <b>Url</b>: <a href={url} target="_blank" rel="noopener noreferrer" style={{ color: 'white' }}>{url}</a>
-                                                            </div>
+                                                            </span>
                                                         )
                                                     })}
                                                 </Typography>

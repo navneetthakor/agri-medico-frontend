@@ -17,7 +17,7 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import HistoryIcon from "@mui/icons-material/History";
 import InfoIcon from "@mui/icons-material/Info";
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import fetchContext from '../context/fetch/fetchContext';
 import logo from '../asset/agri-medico-logo.png';
 import logo2 from '../asset/Agri-Medico-logo2.png';
@@ -26,8 +26,8 @@ import { useSelector } from "react-redux";
 function Sidebar(props) {
   const navigate = useNavigate()
   const context = useContext(fetchContext)
-  const { setUserHistoryData, historyData} = context
-  const { isSidebarOpen, isNonMobile, setIsSidebarOpen,isUserLoggedin } = props;
+  const { setUserHistoryData, historyData } = context
+  const { isSidebarOpen, isNonMobile, setIsSidebarOpen, isUserLoggedin } = props;
   const [userHistory, setUserHistory] = useState({})
 
   // to access current mode 
@@ -45,30 +45,32 @@ function Sidebar(props) {
   // --- user history related logic 
   const getUserHistory = async () => {
     try {
+      if (localStorage.getItem('usertoken')) {
 
-      const history = await fetch('http://localhost:5001/userHistory/getUserHistory', {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          "usertoken": localStorage.getItem("usertoken")
+        const history = await fetch('http://localhost:5001/userHistory/getUserHistory', {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            "usertoken": localStorage.getItem("usertoken")
+          }
+        })
+        const data = await history.json()
+        console.log(data);
+        if (data.signal === 'green') {
+          setUserHistory(data.history);
         }
-      })
-      const data = await history.json()
-      console.log(data);
-      if(data.signal === 'green'){
-        setUserHistory(data.history);
-      }
-      else{
-        setUserHistory({});
+        else {
+          setUserHistory({});
+        }
       }
     } catch (e) {
       console.log(e)
     }
   }
 
-  const handleHistory = (item)=>{
-    console.log("item is : ",item)
+  const handleHistory = (item) => {
+    console.log("item is : ", item)
     setUserHistoryData(item)
 
     navigate(`/result/${userHistory._id}/${item._id}`)
@@ -82,7 +84,7 @@ function Sidebar(props) {
     navigate('/aboutus')
   }
 
-  const headToHomePage = ()=>{
+  const headToHomePage = () => {
     navigate('/')
   }
 
@@ -108,14 +110,14 @@ function Sidebar(props) {
       >
         <FlexBetween>
           <Box
-          sx={{
-            height: '8vh',
-            width: '230px',
-            // border: '2px solid red',
-            overflow: 'hidden'
-          }}
+            sx={{
+              height: '8vh',
+              width: '230px',
+              // border: '2px solid red',
+              overflow: 'hidden'
+            }}
           >
-          <img style={{height: '100%', width: '100%'}} src={mode === 'dark' ? logo2 :logo}  alt='logo' />
+            <img style={{ height: '100%', width: '100%' }} src={mode === 'dark' ? logo2 : logo} alt='logo' />
           </Box>
           {!isNonMobile && (
             <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
@@ -144,11 +146,11 @@ function Sidebar(props) {
                 cursor: "pointer"
               }}
               key={iteam.search_date}
-              onClick={()=>handleHistory(iteam)}
+              onClick={() => handleHistory(iteam)}
             >
               <ChatBubbleOutlineIcon />
               {/* <Typography marginLeft='10px' variant="h6">{iteam.search_date.substring(0,19)}</Typography> */}
-              <Typography marginLeft='10px' variant="h6">Date: {iteam.search_date.substring(0,10)}<br/>Time: {iteam.search_date.substring(11,19)}</Typography>
+              <Typography marginLeft='10px' variant="h6">Date: {iteam.search_date.substring(0, 10)}<br />Time: {iteam.search_date.substring(11, 19)}</Typography>
             </ListItem>
           ))}
         </List>
@@ -205,7 +207,7 @@ function Sidebar(props) {
           </ListItem>
           <ListItem>
             <InfoIcon />
-            <Typography marginLeft='10px' variant="h6" onClick={handleAboutUs} sx={{cursor:'pointer'}}>About Us</Typography>
+            <Typography marginLeft='10px' variant="h6" onClick={handleAboutUs} sx={{ cursor: 'pointer' }}>About Us</Typography>
           </ListItem>
         </List>
       </Box>
