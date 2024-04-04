@@ -47,7 +47,7 @@ function Sidebar(props) {
     try {
       if (localStorage.getItem('usertoken')) {
 
-        const history = await fetch('http://localhost:5001/userHistory/getUserHistory', {
+        const history = await fetch(`${process.env.REACT_APP_BACKEND_IP}/userHistory/getUserHistory`, {
           method: "GET",
           mode: "cors",
           headers: {

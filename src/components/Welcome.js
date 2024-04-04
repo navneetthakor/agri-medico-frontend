@@ -40,7 +40,7 @@ function Welcome() {
     const formData = new FormData();
     formData.append("image", file);
     const response = await fetch(
-      `http://localhost:5001/flask/fetchdiseasename`,
+      `${process.env.REACT_APP_BACKEND_IP}/flask/fetchdiseasename`,
       {
         method: "POST",
         mode: "cors",
@@ -62,7 +62,7 @@ function Welcome() {
       img: json.imagePath,
     };
     const response2 = await fetch(
-      "http://localhost:5001/userHistory/addToUserHistory",
+      `${process.env.REACT_APP_BACKEND_IP}/userHistory/addToUserHistory`,
       {
         method: "PUT",
         mode: "cors",

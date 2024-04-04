@@ -81,7 +81,7 @@ function Navbar(props) {
 
   // to handle form submit
   const handleFormSubmit = async (values) => {
-    let url = `http://localhost:5001/user/`;
+    let url = `${process.env.REACT_APP_BACKEND_IP}/user/`;
     url += loginSignupState === "signup" ? `createuser` : `userlogin`;
     let data;
     let response;
@@ -293,7 +293,7 @@ function Navbar(props) {
   useEffect(() => {
     const togetUser = async () => {
       if (localStorage.getItem("usertoken")) {
-        const url = "http://localhost:5001/user/userAuthtokenLogin";
+        const url = `${process.env.REACT_APP_BACKEND_IP}/user/userAuthtokenLogin`;
         const response = await fetch(url, {
           method: "POST",
           headers: {
@@ -434,7 +434,7 @@ function Navbar(props) {
                     borderRight: '5px solid #4285f4',
                     borderBottom: '5px solid #9b72cb'
                   }}
-                  src={`http://localhost:5001/${user.image}`.replace(
+                  src={`${process.env.REACT_APP_BACKEND_IP}/${user.image}`.replace(
                     "/\\/g",
                     "/"
                     )}

@@ -12,7 +12,7 @@ const HistoryResult = () => {
     const navigate = useNavigate();
 
     const fetchDiseaseDetails = async () => {
-        const response = await fetch('http://localhost:5001/disease/getdiseasebyid', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_IP}/disease/getdiseasebyid`, {
             method: "POST",
             mode: "cors",
             headers: {

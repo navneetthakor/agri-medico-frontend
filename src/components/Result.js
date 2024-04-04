@@ -28,7 +28,7 @@ const Result = () => {
 
   const showResult = async () => {
     try {
-      const response = await fetch('http://localhost:5001/userHistory/getdiseasebyhistoryid', {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_IP}/userHistory/getdiseasebyhistoryid`, {
         method: "POST",
         mode: "cors",
         headers: {
@@ -96,7 +96,7 @@ const Result = () => {
                     component="img"
                     width="200"
                     height="300"
-                    image={`http://localhost:5001/public/${userFileName}`}
+                    image={`${process.env.REACT_APP_BACKEND_IP}/public/${userFileName}`}
                     alt="user uploaded photo"
                   />
                   <CardContent>
@@ -126,7 +126,7 @@ const Result = () => {
                         component="img"
                         width="200"
                         height="300"
-                        image={`http://localhost:5001/public/${medicine.images[0]}`}
+                        image={`${process.env.REACT_APP_BACKEND_IP}/public/${medicine.images[0]}`}
                         alt="medicine"
                       />
                       <CardContent>
