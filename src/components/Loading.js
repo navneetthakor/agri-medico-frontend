@@ -4,9 +4,10 @@ import {
   CircularProgress,
   Skeleton,
 } from "@mui/material";
+import { useOutletContext } from "react-router-dom";
 
 function Loading() {
-
+  const isNonMobile = useOutletContext();
   return (
     <Box
     sx={{
@@ -14,34 +15,39 @@ function Loading() {
         margin: '4vh 4vw 4vh 10vw'
     }}
     >
-    <CircularProgress
-    sx={{
-        position: 'absolute',
-        top: '30%',
-        left: '50%'
-    }}
-    size={80} />
     
     <h1><u>Disease:</u></h1>
     <Box
     sx={{
         display: 'flex',
+        flexDirection: isNonMobile ? 'row': 'column',
         justifyContent:'space-Between'
     }}
     >
+        <Skeleton variant="rectangular" width={ isNonMobile ? 300 : '90%'} height={345} animation="wave" />
+        <Box width={ isNonMobile ? '30%' : '90%'} marginRight={'15%'} marginTop={!isNonMobile && '10%'}>
+        <Skeleton animation="wave" />
+        <Skeleton animation="wave" />
+        <Skeleton animation="wave" />
+        <Skeleton animation="wave" />
+        <Skeleton animation="wave" />
+        <Skeleton animation="wave" />
 
-        <Skeleton variant="rectangular" width={300} height={345} animation="wave" />
+        <Skeleton sx={{marginTop: '10%'}} variant="rectangular" width={100} height={30} animation="wave" />
+        </Box>
     </Box>
 
-    <Box>
+    <Box marginTop={'10%'}>
     <h1><u>Medicines:</u></h1>
     <Box
     display={'flex'}
+    flexDirection={isNonMobile ? 'row' : 'column'}
     gap={'4vw'}
     marginTop={'4vh'}
+    width={ isNonMobile ? 300 : '90%'}
     >
-        <Skeleton variant="rectangular" width={300} height={345} animation="wave" />
-        <Skeleton variant="rectangular" width={300} height={345} animation="wave" />
+        <Skeleton height={345} variant="rectangular" animation="wave" />
+        <Skeleton height={345} variant="rectangular" animation="wave" />
     </Box>
     </Box>
     </Box>
