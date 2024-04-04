@@ -37,17 +37,15 @@ function Loading() {
         </Box>
     </Box>
 
-    <Box marginTop={'10%'}>
+    <Box marginTop={isNonMobile ? '5%' : '10%'}>
     <h1><u>Medicines:</u></h1>
     <Box
     display={'flex'}
     flexDirection={isNonMobile ? 'row' : 'column'}
     gap={'4vw'}
-    marginTop={'4vh'}
-    width={ isNonMobile ? 300 : '90%'}
+    marginTop={ '4vh'}
     >
-        <Skeleton height={345} variant="rectangular" animation="wave" />
-        <Skeleton height={345} variant="rectangular" animation="wave" />
+        <Skeleton width={ isNonMobile ? 300 : '90%'} height={345} variant="rectangular" animation="wave" />
     </Box>
     </Box>
     </Box>

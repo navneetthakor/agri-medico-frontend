@@ -5,8 +5,8 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Button, CardActionArea } from '@mui/material';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import Loading from './Loading';
 const Result = () => {
   const navigate = useNavigate()
@@ -17,7 +17,7 @@ const Result = () => {
   const [medicineData, setMedicineData] = useState([]);
   const [userFileName, setUserFilename] = useState("")
   const [isResult, setIsResult] = useState(false);
-
+  const isNonMobile = useOutletContext();
   // for result page to navigate to welcome page when user logs out
   useEffect(() => {
     if (!localStorage.getItem('usertoken')) {
@@ -80,21 +80,33 @@ const Result = () => {
 
   return (
     <>
-    { isResult ? <div style={{ marginLeft: '10vw' }}>
-      {(
-        <>
+    { isResult ?
+     <Box
+     sx={{
+      position: 'relative',
+      margin: '4vh 4vw 4vh 10vw',
+      marginRight: !isNonMobile && '10vw',
+  }}
+      >
+
           {Object.keys(diseaseData).length > 0 && (
-            <div>
-              <h1><u>Disease:</u></h1>
-              <Card sx={{
-                maxWidth: 345,
-                marginTop: '4vh',
-              }}>
-                {console.log(userFileName)}
+            <>
+            <h1><u>Disease:</u></h1>
+            <Box
+            sx={{
+              display: 'flex',
+              flexDirection: isNonMobile ? 'row': 'column',
+              justifyContent:'space-Between',
+          }}
+            >
+              <Card
+                width={ isNonMobile ? 300 : '80%'} 
+                height={345}
+              >
                 <CardActionArea>
                   <CardMedia
                     component="img"
-                    width="200"
+                    width={isNonMobile ? "300" : '90%'}
                     height="300"
                     image={`${process.env.REACT_APP_BACKEND_IP}/public/${userFileName}`}
                     alt="user uploaded photo"
@@ -103,28 +115,34 @@ const Result = () => {
                     <Typography gutterBottom variant="h5" component="div">
                       {diseaseData.name}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {diseaseData.description}
-                    </Typography>
                   </CardContent>
                 </CardActionArea>
               </Card>
-            </div>
+
+              <Box width={ isNonMobile ? '30%' : '100%'} marginRight={'15%'} marginTop={!isNonMobile && '10%'}>
+                <Typography >{diseaseData.description}</Typography>
+
+                <Button variant="outlined" sx={{marginTop: '7%', fontWeight: '700', color: 'skyblue'}} width={100} height={30} > Read more </Button>
+              </Box>
+            </Box>
+            </>
           )}
 
           {medicineData.length > 0 && (
-            <div>
+            <Box  marginTop={isNonMobile ? '5%' : '10%'}>
               <h1><u>Medicines:</u></h1>
-              <Box sx={{
-                display: 'flex',
-                flexDirection: 'row',
-              }}>
+              <Box
+              display={'flex'}
+              flexDirection={isNonMobile ? 'row' : 'column'}
+              gap={'4vw'}
+              marginTop={ '4vh'}
+              >
                 {medicineData.map((medicine, index) => (
                   <Card key={index} sx={{ maxWidth: 345, marginRight: '4vw' }}>
                     <CardActionArea>
                       <CardMedia
                         component="img"
-                        width="200"
+                        width={isNonMobile ? "300" : '90%'}
                         height="300"
                         image={`${process.env.REACT_APP_BACKEND_IP}/public/${medicine.images[0]}`}
                         alt="medicine"
@@ -150,11 +168,9 @@ const Result = () => {
                   </Card>
                 ))}
               </Box>
-            </div>
+            </Box>
           )}
-        </>
-      )}
-    </div>
+    </Box>
     : <Loading /> }
     </>
   );
