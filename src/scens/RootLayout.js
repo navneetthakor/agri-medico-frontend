@@ -44,7 +44,7 @@ function RootLayout() {
               marginRight: isNonMobile ? '80px': 'inherite',
             }}
             >
-            <Outlet />
+            <Outlet context={isNonMobile} />
 
             </Box>
         </Box>
