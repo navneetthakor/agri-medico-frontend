@@ -113,9 +113,10 @@ function Sidebar(props) {
             sx={{
               height: '8vh',
               width: '230px',
-              // border: '2px solid red',
+              cursor: 'pointer',
               overflow: 'hidden'
             }}
+            onClick={() => navigate('/')}
           >
             <img style={{ height: '100%', width: '100%' }} src={mode === 'dark' ? logo2 : logo} alt='logo' />
           </Box>
