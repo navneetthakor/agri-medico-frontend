@@ -42,6 +42,7 @@ function RootLayout() {
             <Box
             sx={{
               marginRight: isNonMobile ? '80px': 'inherite',
+              width: '100%'
             }}
             >
             <Outlet context={isNonMobile} />
