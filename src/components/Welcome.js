@@ -24,8 +24,8 @@ const VisuallyHiddenInput = styled("input")({
 
 function Welcome() {
 
-    // to use theme Object 
-    const theme = useTheme();
+  // to use theme Object 
+  const theme = useTheme();
 
   // to know wheteher device is mobile or not
   const isNonMobile = useOutletContext();
@@ -49,7 +49,7 @@ function Welcome() {
     );
     const json = await response.json();
 
-    if(!localStorage.getItem('usertoken')){
+    if (!localStorage.getItem('usertoken')) {
       console.log("json is : ", json)
       getDummyResult(json)
       navigate('/result')
@@ -76,8 +76,13 @@ function Welcome() {
 
     const json2 = await response2.json();
     console.log("json2 is : ", json2, "time is : ", Date.now);
-
-    navigate(`/result/${json2.historyId}/${json2.data._id}`);
+    if (json2.signal === "green") {
+      console.log("hi")
+      navigate(`/result/${json2.historyId}/${json2.data._id}`);
+      return;
+    }
+    alert("server not responding")
+    navigate('/')
   };
 
   // made just for checking context variable result value
@@ -118,7 +123,7 @@ function Welcome() {
               WebkitBackgroundClip: "text",
             }}
           >
-          Welcome to, Agri-Medico
+            Welcome to, Agri-Medico
           </h1>
           <h1
             style={{
@@ -131,83 +136,83 @@ function Welcome() {
           </h1>
         </Box>
 
-      <Box
-        sx={{
-          width: "80%",
-          height: isNonMobile ? "200px" : "550px",
-          overflow: "hidden",
-          display: "flex",
-          flexDirection: isNonMobile ? "row" : "column",
-          justifyContent: "space-around",
-          alignItems: "center",
-          marginTop: `15px`,
-          padding: '0 10px'
-        }}
-      >
-        <Card
+        <Box
           sx={{
-            maxWidth: isNonMobile ? 245 : 'inherite',
-            borderRadius: "10px",
-            boxShadow: "1px 1px 8px #4285f4",
+            width: "80%",
+            height: isNonMobile ? "200px" : "550px",
+            overflow: "hidden",
+            display: "flex",
+            flexDirection: isNonMobile ? "row" : "column",
+            justifyContent: "space-around",
+            alignItems: "center",
+            marginTop: `15px`,
+            padding: '0 10px'
           }}
         >
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Step-1
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Upload a clear leaf image with the help of upload file button.
-              Make sure to involve that part of leaf image which consists of the
-              affected region for accurate predictions.
-            </Typography>
-          </CardContent>
-        </Card>
+          <Card
+            sx={{
+              maxWidth: isNonMobile ? 245 : 'inherite',
+              borderRadius: "10px",
+              boxShadow: "1px 1px 8px #4285f4",
+            }}
+          >
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                Step-1
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Upload a clear leaf image with the help of upload file button.
+                Make sure to involve that part of leaf image which consists of the
+                affected region for accurate predictions.
+              </Typography>
+            </CardContent>
+          </Card>
 
-        <Card
-          sx={{
-            maxWidth: isNonMobile ? 245 : 'inherite',
-            borderRadius: "10px",
-            boxShadow: "1px 1px 8px #9b72cb",
-          }}
-        >
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Step-2
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Obtain the disease information and guidelines regarding
-              appropriate medicines. Lighten your task of finding those
-              medicines by directly navigating to the links we provide.
-            </Typography>
-          </CardContent>
-        </Card>
+          <Card
+            sx={{
+              maxWidth: isNonMobile ? 245 : 'inherite',
+              borderRadius: "10px",
+              boxShadow: "1px 1px 8px #9b72cb",
+            }}
+          >
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                Step-2
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Obtain the disease information and guidelines regarding
+                appropriate medicines. Lighten your task of finding those
+                medicines by directly navigating to the links we provide.
+              </Typography>
+            </CardContent>
+          </Card>
 
-        <Card
-          sx={{
-            maxWidth: isNonMobile ? 245 : 'inherite',
-            borderRadius: "10px",
-            boxShadow: "1px 1px 8px #d96570",
-          }}
-        >
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Step-3
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Take control of viewing your past queries with our feature to see
-              the past response. You can also delete your history as per your
-              wish. Feel free to contact us anytime!
-            </Typography>
-          </CardContent>
-        </Card>
-      </Box>
+          <Card
+            sx={{
+              maxWidth: isNonMobile ? 245 : 'inherite',
+              borderRadius: "10px",
+              boxShadow: "1px 1px 8px #d96570",
+            }}
+          >
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                Step-3
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Take control of viewing your past queries with our feature to see
+                the past response. You can also delete your history as per your
+                wish. Feel free to contact us anytime!
+              </Typography>
+            </CardContent>
+          </Card>
+        </Box>
 
         {/* to behave like input field  */}
-        <Box 
-        component={Button}
-        onClick={()=> document.getElementById('fileInputButton').click()}
-        startIcon={<CloudUploadIcon />}
-        sx={{
+        <Box
+          component={Button}
+          onClick={() => document.getElementById('fileInputButton').click()}
+          startIcon={<CloudUploadIcon />}
+          sx={{
             marginTop: '20px',
             marginBottom: '50px',
             height: '50px',
@@ -215,25 +220,25 @@ function Welcome() {
             background: theme.palette.background.alt,
             borderRadius: '25px',
             color: theme.palette.neutral[100],
-        }}
+          }}
         >
 
-        {isNonMobile && 'click here to' } upload image
+          {isNonMobile && 'click here to'} upload image
         </Box>
         <Button
-        id="fileInputButton"
-        sx={{display: 'none'}}
-        component="label"
-        variant="contained"
-        tabIndex={0}
-        startIcon={<CloudUploadIcon />}
-        type="submit"
-        onChange={handleImageSubmit}
+          id="fileInputButton"
+          sx={{ display: 'none' }}
+          component="label"
+          variant="contained"
+          tabIndex={0}
+          startIcon={<CloudUploadIcon />}
+          type="submit"
+          onChange={handleImageSubmit}
         >
           Upload file
           <VisuallyHiddenInput type="file" />
         </Button>
-        </Box>
+      </Box>
     </>
   );
 }
