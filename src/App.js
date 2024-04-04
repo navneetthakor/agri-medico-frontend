@@ -12,6 +12,7 @@ import Welcome from "./components/Welcome";
 import FetchState from "./context/fetch/FetchState";
 import Result from "./components/Result";
 import HistoryResult from "./components/HistoryResult";
+import AboutUs from "./components/AboutUs";
 
 // router setup 
 
@@ -28,6 +29,7 @@ function App() {
     <Route exact path="/" element={<RootLayout />}>
       <Route index element={<Welcome />} />
       <Route exact path="/result/:userHistoryId/:searchHistoryId" element={<Result />} />
+      <Route exact path="/aboutus" element={<AboutUs />} />
     </Route>
   ))
   return (
