@@ -1,18 +1,11 @@
-import React, { useEffect, useState } from "react";
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import FlexCenter from "./FlexCenter";
-import "../css/loading.css";
+import React from "react";
 import {
   Box,
   CircularProgress,
   Skeleton,
-  circularProgressClasses,
 } from "@mui/material";
-import FlexBetween from "./FlexBetween";
 
 function Loading() {
-  const [currentColor, setCurrentColor] = useState("#d96570");
-  const colors = ["#4285f4", "#9b72cb", "#d96570", "#F31314"];
 
   return (
     <Box
