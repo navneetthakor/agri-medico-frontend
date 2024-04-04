@@ -100,7 +100,7 @@ function Welcome() {
           alt="Logo"
           style={{ marginTop: "-10vh" }}
         /> */}
-        <Box sx={{ width: "80%"}}>
+        <Box>
           <h1
             style={{
               fontSize: isNonMobile ? "70px " : "40px",
