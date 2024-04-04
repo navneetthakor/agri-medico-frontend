@@ -80,14 +80,15 @@ function Welcome() {
   }, []);
 
   return (
-    <div>
+    <>
       <Box
         sx={{
-          paddingTop: "40px",
+          marginTop: "40px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          marginLeft: '40px',
           gap: "10px",
         }}
       >
@@ -98,7 +99,7 @@ function Welcome() {
           alt="Logo"
           style={{ marginTop: "-10vh" }}
         /> */}
-        <Box sx={{}}>
+        <Box sx={{ width: "80%"}}>
           <h1
             style={{
               display: 'flex',
@@ -113,11 +114,11 @@ function Welcome() {
             }}
           >
             <Box>Welcome to,&nbsp;</Box>
-            <Box sx={{fontSize: isNonMobile ? 'inherite': '50px'}}>Agri-Medico</Box>
+            <Box>Agri-Medico</Box>
           </h1>
           <h1
             style={{
-              fontSize: isNonMobile ? "70px" : "40px",
+              fontSize: isNonMobile ? "70px" : "30px",
               margin: "0",
               color: "#666666",
             }}
@@ -125,24 +126,23 @@ function Welcome() {
             Your AI Doctor...
           </h1>
         </Box>
-      </Box>
 
       <Box
         sx={{
-          width: "70%",
+          width: "80%",
           height: isNonMobile ? "200px" : "550px",
           overflow: "hidden",
           display: "flex",
           flexDirection: isNonMobile ? "row" : "column",
           justifyContent: "space-around",
           alignItems: "center",
-          marginLeft: "15%",
-          marginTop: '15px'
+          marginTop: `15px`,
+          padding: '0 10px'
         }}
       >
         <Card
           sx={{
-            maxWidth: 245,
+            maxWidth: isNonMobile ? 245 : 'inherite',
             borderRadius: "10px",
             boxShadow: "1px 1px 8px #4285f4",
           }}
@@ -161,7 +161,7 @@ function Welcome() {
 
         <Card
           sx={{
-            maxWidth: 245,
+            maxWidth: isNonMobile ? 245 : 'inherite',
             borderRadius: "10px",
             boxShadow: "1px 1px 8px #9b72cb",
           }}
@@ -180,7 +180,7 @@ function Welcome() {
 
         <Card
           sx={{
-            maxWidth: 245,
+            maxWidth: isNonMobile ? 245 : 'inherite',
             borderRadius: "10px",
             boxShadow: "1px 1px 8px #d96570",
           }}
@@ -198,49 +198,39 @@ function Welcome() {
         </Card>
       </Box>
 
-      <Box
-        sx={{
-          padding: "100px 0px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: "-7vh",
-        }}
-      >
-        
-
         {/* to behave like input field  */}
         <Box 
         component={Button}
         onClick={()=> document.getElementById('fileInputButton').click()}
         startIcon={<CloudUploadIcon />}
         sx={{
+            marginTop: '20px',
+            marginBottom: '50px',
             height: '50px',
-            width: '60%',
+            width: isNonMobile ? '60%' : '80vw',
             background: theme.palette.background.alt,
             borderRadius: '25px',
-            color: 'white'
+            color: theme.palette.neutral[100],
         }}
         >
 
-        click here to upload image
+        {isNonMobile && 'click here to' } upload image
         </Box>
         <Button
         id="fileInputButton"
-          sx={{display: 'none'}}
-          component="label"
-          variant="contained"
-          tabIndex={0}
-          startIcon={<CloudUploadIcon />}
-          type="submit"
-          onChange={handleImageSubmit}
+        sx={{display: 'none'}}
+        component="label"
+        variant="contained"
+        tabIndex={0}
+        startIcon={<CloudUploadIcon />}
+        type="submit"
+        onChange={handleImageSubmit}
         >
           Upload file
           <VisuallyHiddenInput type="file" />
         </Button>
-      </Box>
-    </div>
+        </Box>
+    </>
   );
 }
 
