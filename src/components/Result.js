@@ -10,40 +10,43 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 const Result = () => {
   const navigate = useNavigate()
-  const {userHistoryId, searchHistoryId} = useParams()
+  const { userHistoryId, searchHistoryId } = useParams()
   const context = useContext(fetchContext);
   const { result, updateResult } = context;
   const [diseaseData, setDiseaseData] = useState({});
   const [medicineData, setMedicineData] = useState([]);
-  const [showDiseaseContent, setShowDiseaseContent] = useState(false);
-  const [showMedicineContent, setShowMedicineContent] = useState(false);
   const [userFileName, setUserFilename] = useState("")
 
   console.log("hi")
 
   // for result page to navigate to welcome page when user logs out
   useEffect(() => {
-    if(!localStorage.getItem('usertoken')){
+    if (!localStorage.getItem('usertoken')) {
       navigate('/')
     }
   }, [localStorage.getItem('usertoken')])
-  
+
 
   const showResult = async () => {
-    try{
+    try {
       const response = await fetch('http://localhost:5001/userHistory/getdiseasebyhistoryid', {
-          method:"POST",
-          mode:"cors",
-          headers:{
-            "Content-Type": "application/json",
-            "usertoken": localStorage.getItem('usertoken')
-          },
-          body: JSON.stringify({ userHistoryId, searchHistoryId })
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          "usertoken": localStorage.getItem('usertoken')
+        },
+        body: JSON.stringify({ userHistoryId, searchHistoryId })
       })
       const json = await response.json()
-      console.log("data by backend : ",json)
-      updateResult(json)
-    }catch(e){
+      console.log("data by backend : ", json)
+      if (json.signal === 'green') {
+        updateResult(json)
+        return;
+      }
+      alert('server not responding');
+      navigate('/');
+    } catch (e) {
       console.log(e)
     }
   }
@@ -51,37 +54,8 @@ const Result = () => {
   useEffect(() => {
     showResult()
   }, [searchHistoryId])
-  
 
 
-  // const addToUserHistory = async ()=>{
-  //   console.log("disease: ", diseaseData, userFileName)
-  //   const disease_obj = {
-  //     disease: diseaseData._id,
-  //     img: userFileName,
-  //   }
-  //   const response = await fetch('http://localhost:5001/userHistory/addToUserHistory', {
-  //       method: "PUT",
-  //       mode: "cors",
-  //       headers:{
-  //         "Content-Type": "application/json",
-  //         "usertoken": localStorage.getItem("usertoken")
-  //       },
-  //       body: JSON.stringify({disease_obj})
-  //     })
-
-  //     const json = await response.json()
-  //     console.log(json)
-  //   }
-    
-    // useEffect for storing the details of corresponding user.
-  //   useEffect(() => {
-  //     if(diseaseData._id !== null){
-  //       addToUserHistory()
-  //     }
-  // }, [diseaseData])
-  
-  
   // useEffect for disease and medicine data.
   useEffect(() => {
     if (result.medicines) {
@@ -91,23 +65,9 @@ const Result = () => {
       setMedicineData(result.medicines);
     }
     if (result.img) {
+      console.log("img is : ", result.img)
       setUserFilename(result.img)
     }
-
-
-    const timeout1 = setTimeout(() => {
-      setShowDiseaseContent(true);
-    }, 1000);
-
-    const timeout2 = setTimeout(() => {
-      setShowMedicineContent(true);
-    }, 1500);
-
-    // Clear the timeout to avoid memory leaks
-    return () => {
-      clearTimeout(timeout1);
-      clearTimeout(timeout2);
-    };
   }, [result]);
 
   if (result.error) {
@@ -118,7 +78,7 @@ const Result = () => {
 
   return (
     <div style={{ marginLeft: '10vw' }}>
-      {showDiseaseContent && (
+      {(
         <>
           {Object.keys(diseaseData).length > 0 && (
             <div>
@@ -130,9 +90,10 @@ const Result = () => {
                 <CardActionArea>
                   <CardMedia
                     component="img"
-                    height="140"
-                    image="img.jpg"
-                    alt="disease"
+                    width="200"
+                    height="300"
+                    image={`http://localhost:5001/public/${userFileName}`}
+                    alt="user uploaded photo"
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
@@ -147,7 +108,7 @@ const Result = () => {
             </div>
           )}
 
-          {showMedicineContent && medicineData.length > 0 && (
+          {medicineData.length > 0 && (
             <div>
               <h1><u>Medicines:</u></h1>
               <Box sx={{
@@ -159,8 +120,9 @@ const Result = () => {
                     <CardActionArea>
                       <CardMedia
                         component="img"
-                        height="140"
-                        image="img.jpg"
+                        width="200"
+                        height="300"
+                        image={`http://localhost:5001/public/${medicine.images[0]}`}
                         alt="medicine"
                       />
                       <CardContent>
@@ -168,7 +130,16 @@ const Result = () => {
                           {medicine.name}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          {medicine.description}
+                          <b>Description</b>: {medicine.description}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" sx={{marginTop:'5px'}}>
+                          {medicine.urls.map((url)=>{
+                            return(
+                              <div style={{marginTop:'5px'}}>
+                                <b>Url</b>: <a href={url} target="_blank" rel="noopener noreferrer" style={{color:'white'}}>{url}</a>
+                              </div>
+                            )
+                          })}
                         </Typography>
                       </CardContent>
                     </CardActionArea>
