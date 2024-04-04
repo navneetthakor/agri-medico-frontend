@@ -13,6 +13,7 @@ import FetchState from "./context/fetch/FetchState";
 import Result from "./components/Result";
 import HistoryResult from "./components/HistoryResult";
 import AboutUs from "./components/AboutUs";
+import Loading from "./components/Loading";
 
 // router setup 
 
@@ -30,6 +31,7 @@ function App() {
       <Route index element={<Welcome />} />
       <Route exact path="/result/:userHistoryId/:searchHistoryId" element={<Result />} />
       <Route exact path="/aboutus" element={<AboutUs />} />
+      <Route exact path="/loading" element={<Loading />} />
     </Route>
   ))
   return (
