@@ -83,6 +83,7 @@ function Welcome() {
     <>
       <Box
         sx={{
+          flexGrow: '1',
           marginTop: "40px",
           display: "flex",
           flexDirection: "column",
@@ -102,8 +103,6 @@ function Welcome() {
         <Box sx={{ width: "80%"}}>
           <h1
             style={{
-              display: 'flex',
-              flexDirection: isNonMobile ? 'row': 'column',
               fontSize: isNonMobile ? "70px " : "40px",
               margin: "0",
               color: "transparent",
@@ -113,8 +112,7 @@ function Welcome() {
               WebkitBackgroundClip: "text",
             }}
           >
-            <Box>Welcome to,&nbsp;</Box>
-            <Box>Agri-Medico</Box>
+          Welcome to, Agri-Medico
           </h1>
           <h1
             style={{

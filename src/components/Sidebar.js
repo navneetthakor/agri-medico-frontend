@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   DialogTitle,
   Drawer,
   IconButton,
@@ -20,6 +19,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import {useNavigate} from 'react-router-dom'
 import fetchContext from '../context/fetch/fetchContext';
+import logo from '../asset/agri-medico-logo.png';
 
 function Sidebar(props) {
   const navigate = useNavigate()
