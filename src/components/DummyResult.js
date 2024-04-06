@@ -21,13 +21,12 @@ const DummyResult = () => {
             navigate('/')
           }
         if (dummyResult.diseaseDetailsResponse) {
-          setDiseaseData(dummyResult.diseaseDetailsResponse);
+          setDiseaseData(dummyResult.diseaseDetailsResponse.disease);
         }
         if (dummyResult.medicineDetailsResponse) {
-          setMedicineData(dummyResult.medicineDetailsResponse);
+          setMedicineData(dummyResult.medicineDetailsResponse.medicines);
         }
         if (dummyResult.imagePath) {
-          console.log("img is : ", dummyResult.imagePath);
           setUserFilename(dummyResult.imagePath);
         }
       }, [dummyResult]);
