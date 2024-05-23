@@ -90,7 +90,6 @@ function Navbar(props) {
       const formdata = new FormData();
       if (selectedImage) formdata.append("image", selectedImage);
       for (let [key, value] of Object.entries(values)) {
-        console.log(key, value);
         formdata.append(key, value);
       }
 
@@ -109,9 +108,9 @@ function Navbar(props) {
         },
         body: JSON.stringify(values),
       });
-      console.log(response);
+      // console.log(response);
       data = await response.json();
-      console.log(data);
+      // console.log(data);
     }
 
     if (data.signal === "red") alert(data.error);
