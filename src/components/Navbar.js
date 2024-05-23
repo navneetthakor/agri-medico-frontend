@@ -34,6 +34,7 @@ import * as yup from "yup";
 import FlexCenter from "./FlexCenter";
 import styled from "@emotion/styled";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import { useNavigate } from "react-router-dom";
 
 // schema for formik form
 const userFormSchema = yup.object().shape({
@@ -53,6 +54,7 @@ const ErrorMessage = styled(Typography)({
 
 // ---------------   actual function ---------------
 function Navbar(props) {
+  const navigate = useNavigate()
   const { isSidebarOpen, isNonMobile, setIsSidebarOpen, isUserLoggedin, setIsUserLoggedin } = props;
 
   //   to access theme
@@ -543,6 +545,7 @@ function Navbar(props) {
                     localStorage.removeItem("usertoken");
                     setIsUserLoggedin(false);
                     handleModalClose(1);
+                    navigate('/');
                   }}
                 >
                   <LogoutIcon

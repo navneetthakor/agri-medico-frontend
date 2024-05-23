@@ -18,12 +18,6 @@ const Result = () => {
   const [userFileName, setUserFilename] = useState("")
   const [isResult, setIsResult] = useState(false);
   const isNonMobile = useOutletContext();
-  // for result page to navigate to welcome page when user logs out
-  useEffect(() => {
-    if (!localStorage.getItem('usertoken')) {
-      navigate('/')
-    }
-  }, [localStorage.getItem('usertoken')])
 
 
   const showResult = async () => {
@@ -106,10 +100,11 @@ const Result = () => {
                 <CardActionArea>
                   <CardMedia
                     component="img"
-                    width={isNonMobile ? "300" : '90%'}
+                    width={isNonMobile ? "300 !important" : '90%'}
                     height="300"
                     image={`${process.env.REACT_APP_BACKEND_IP}/public/${userFileName}`}
                     alt="user uploaded photo"
+                    sx={{overflow:'hidden'}}
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
@@ -122,7 +117,7 @@ const Result = () => {
               <Box width={ isNonMobile ? '30%' : '100%'} marginRight={'15%'} marginTop={!isNonMobile && '10%'}>
                 <Typography >{diseaseData.description}</Typography>
 
-                <Button variant="outlined" sx={{marginTop: '7%', fontWeight: '700', color: 'skyblue'}} width={100} height={30} > Read more </Button>
+                <Button variant="outlined" sx={{marginTop: '7%', fontWeight: '700', color: 'skyblue'}} width={100} height={30} > <a href={`https://en.wikipedia.org/wiki/${diseaseData.name}`} target={'_blank'} style={{color: 'skyblue', textDecoration:'none'}}>Read more</a> </Button>
               </Box>
             </Box>
             </>
@@ -149,7 +144,10 @@ const Result = () => {
                       />
                       <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
-                          {medicine.name}
+                          {
+                            medicine.name !== 'null' ? medicine.name : "Healthy leaf"
+                          }
+                          {/* {medicine.name} */}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                           <b>Description</b>: {medicine.description}

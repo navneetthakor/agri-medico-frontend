@@ -87,7 +87,10 @@ const DummyResult = () => {
                                             />
                                             <CardContent>
                                                 <Typography gutterBottom variant="h5" component="div">
-                                                    {medicine.name}
+                                                    {
+                                                        medicine.name!=='null' ? medicine.name : "Healthy leaf"
+                                                    }
+                                                    {/* {medicine.name} */}
                                                 </Typography>
                                                 <Typography variant="body2" color="text.secondary">
                                                     <b>Description</b>: {medicine.description}

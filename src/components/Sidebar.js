@@ -58,6 +58,7 @@ function Sidebar(props) {
         const data = await history.json()
         console.log(data);
         if (data.signal === 'green') {
+          data.history.search_history.reverse();
           setUserHistory(data.history);
         }
       }
@@ -198,8 +199,8 @@ function Sidebar(props) {
             >
               Email
             </MenuItem>
-            <MenuItem onClick={handleHelpButtonClick}>My account</MenuItem>
-            <MenuItem onClick={handleHelpButtonClick}>Logout</MenuItem>
+            {/* <MenuItem onClick={handleHelpButtonClick}>My account</MenuItem> */}
+            {/* <MenuItem onClick={handleHelpButtonClick}>Logout</MenuItem> */}
           </Menu>
 
           <ListItem>

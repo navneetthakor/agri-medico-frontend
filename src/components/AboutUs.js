@@ -133,7 +133,7 @@ const AboutUs = () => {
             }}>
                 <EmailIcon /> <Typography onClick={() =>
                 (window.location.href = "mailto:tnavneet8628@gmail.com")
-              } sx={{cursor:'pointer', marginLeft:'5px'}}>abc@gmail.com</Typography>
+              } sx={{cursor:'pointer', marginLeft:'5px'}}>tnavneet8628@gmail.com</Typography>
             </Box>
 
             <Box sx={{
@@ -142,7 +142,7 @@ const AboutUs = () => {
                 alignItems: 'center',
                 marginTop: '2vh',
                 marginLeft: '8vw'
-            }}>7
+            }}>
                 <CallIcon /> <Typography onClick={() =>
                 (window.location.href = 'tel:+919999999999')
               } sx={{cursor:'pointer', marginLeft:'5px'}}>+919999999999</Typography>
