@@ -9,6 +9,8 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@emotion/react";
+import { Image } from "@mui/icons-material";
+import doctorPlant from "../asset/doctorPlant.png";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -23,8 +25,7 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 function Welcome() {
-
-  // to use theme Object 
+  // to use theme Object
   const theme = useTheme();
 
   // to know wheteher device is mobile or not
@@ -49,10 +50,10 @@ function Welcome() {
     );
     const json = await response.json();
 
-    if (!localStorage.getItem('usertoken')) {
-      console.log("json is : ", json)
-      getDummyResult(json)
-      navigate('/result')
+    if (!localStorage.getItem("usertoken")) {
+      console.log("json is : ", json);
+      getDummyResult(json);
+      navigate("/result");
       return;
     }
 
@@ -75,14 +76,14 @@ function Welcome() {
     );
 
     const json2 = await response2.json();
-    console.log("json2 is : ", json2, "time is : ", Date.now);
+    // console.log("json2 is : ", json2, "time is : ", Date.now);
     if (json2.signal === "green") {
-      console.log("hi")
+      // console.log("hi")
       navigate(`/result/${json2.historyId}/${json2.data._id}`);
       return;
     }
-    alert("server not responding")
-    navigate('/')
+    alert("server not responding");
+    navigate("/");
   };
 
   // made just for checking context variable result value
@@ -94,13 +95,13 @@ function Welcome() {
     <>
       <Box
         sx={{
-          flexGrow: '1',
+          flexGrow: "1",
           marginTop: "40px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          marginLeft: '40px',
+          marginLeft: "40px",
           gap: "10px",
         }}
       >
@@ -137,6 +138,21 @@ function Welcome() {
         </Box>
 
         <Box
+          component="img"
+          sx={{
+            height: 353,
+            width: isNonMobile ? "50%" : "80%",
+            borderRadius: "8px",
+            borderTop: "2px solid #4285f4",
+            borderLeft: "2px solid #9b72cb",
+            borderRight: "2px solid #4285f4",
+            borderBottom: "2px solid #9b72cb",
+          }}
+          alt="The house from the offer."
+          src={doctorPlant}
+        />
+
+        <Box
           sx={{
             width: "80%",
             height: isNonMobile ? "200px" : "550px",
@@ -146,12 +162,12 @@ function Welcome() {
             justifyContent: "space-around",
             alignItems: "center",
             marginTop: `15px`,
-            padding: '0 10px'
+            padding: "0 10px",
           }}
         >
           <Card
             sx={{
-              maxWidth: isNonMobile ? 245 : 'inherite',
+              maxWidth: isNonMobile ? 245 : "inherite",
               borderRadius: "10px",
               boxShadow: "1px 1px 8px #4285f4",
             }}
@@ -162,15 +178,15 @@ function Welcome() {
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Upload a clear leaf image with the help of upload file button.
-                Make sure to involve that part of leaf image which consists of the
-                affected region for accurate predictions.
+                Make sure to involve that part of leaf image which consists of
+                the affected region for accurate predictions.
               </Typography>
             </CardContent>
           </Card>
 
           <Card
             sx={{
-              maxWidth: isNonMobile ? 245 : 'inherite',
+              maxWidth: isNonMobile ? 245 : "inherite",
               borderRadius: "10px",
               boxShadow: "1px 1px 8px #9b72cb",
             }}
@@ -189,7 +205,7 @@ function Welcome() {
 
           <Card
             sx={{
-              maxWidth: isNonMobile ? 245 : 'inherite',
+              maxWidth: isNonMobile ? 245 : "inherite",
               borderRadius: "10px",
               boxShadow: "1px 1px 8px #d96570",
             }}
@@ -199,9 +215,9 @@ function Welcome() {
                 Step-3
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Take control of viewing your past queries with our feature to see
-                the past response. You can also delete your history as per your
-                wish. Feel free to contact us anytime!
+                Take control of viewing your past queries with our feature to
+                see the past response. You can also delete your history as per
+                your wish. Feel free to contact us anytime!
               </Typography>
             </CardContent>
           </Card>
@@ -210,24 +226,29 @@ function Welcome() {
         {/* to behave like input field  */}
         <Box
           component={Button}
-          onClick={() => document.getElementById('fileInputButton').click()}
+          onClick={() => document.getElementById("fileInputButton").click()}
           startIcon={<CloudUploadIcon />}
           sx={{
-            marginTop: '20px',
-            marginBottom: '50px',
-            height: '50px',
-            width: isNonMobile ? '60%' : '80vw',
+            marginTop: "30px",
+            height: "50px",
+            width: isNonMobile ? "60%" : "80vw",
             background: theme.palette.background.alt,
-            borderRadius: '25px',
+            borderRadius: "25px",
             color: theme.palette.neutral[100],
+            position: "sticky",
+            bottom: "5%",
+            boxShadow: "1px 1px 20px gray",
+            "&:hover": {
+              opacity: 1,
+              background: "black",
+            },
           }}
         >
-
-          {isNonMobile && 'click here to'} upload image
+          {isNonMobile && "click here to"} upload image
         </Box>
         <Button
           id="fileInputButton"
-          sx={{ display: 'none' }}
+          sx={{ display: "none" }}
           component="label"
           variant="contained"
           tabIndex={0}
