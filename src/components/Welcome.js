@@ -137,21 +137,21 @@ function Welcome() {
           </h1>
         </Box>
 
-        // doctor image in center commented currently 
-        // <Box
-        //   component="img"
-        //   sx={{
-        //     height: 353,
-        //     width: isNonMobile ? "50%" : "80%",
-        //     borderRadius: "8px",
-        //     borderTop: "2px solid #4285f4",
-        //     borderLeft: "2px solid #9b72cb",
-        //     borderRight: "2px solid #4285f4",
-        //     borderBottom: "2px solid #9b72cb",
-        //   }}
-        //   alt="The house from the offer."
-        //   src={doctorPlant}
-        // />
+        // doctor image marked for removal
+        <Box
+          component="img"
+          sx={{
+            height: 353,
+            width: isNonMobile ? "50%" : "80%",
+            borderRadius: "8px",
+            borderTop: "2px solid #4285f4",
+            borderLeft: "2px solid #9b72cb",
+            borderRight: "2px solid #4285f4",
+            borderBottom: "2px solid #9b72cb",
+          }}
+          alt="The house from the offer."
+          src={doctorPlant}
+        />
 
         <Box
           sx={{
