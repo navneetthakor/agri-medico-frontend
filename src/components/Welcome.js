@@ -137,7 +137,7 @@ function Welcome() {
           </h1>
         </Box>
 
-        // doctor image marked for removal
+{/*
         <Box
           component="img"
           sx={{
@@ -151,7 +151,7 @@ function Welcome() {
           }}
           alt="The house from the offer."
           src={doctorPlant}
-        />
+        /> */}
 
         <Box
           sx={{
